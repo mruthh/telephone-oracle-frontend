@@ -3,26 +3,35 @@
     <h1>Telephone Oracle - Pandemic Edition</h1>
     <Start
       v-if="!game"
+      :hasError="hasGameCodeError"
       @start="startGame"
       @join="joinGame"
     />
-    <Game v-if="showGame" :game="game"/>
-    <Finale v-if="showFinale" :game="game" />
+    <Game 
+      v-if="showGame" 
+      :game="game" 
+      :player="player" 
+      @playerCreated="setPlayer" 
+    />
+    <Finale v-if="showFinale" :game="game" :player="player" />
   </div>
 </template>
 
-<script>
+<script> 
 
 import Game from './components/Game'
 import Start from './components/Start'
 import Finale from './components/Finale'
+import { startGame } from './libraries/api'
 
 export default {
   name: 'app',
-  components: { Game, Players },
+  components: { Start, Game, Finale },
   data () {
     return {
-      game: null
+      game: null,
+      player: null,
+      hasGameCodeError: false
     }
   },
   computed: {
@@ -34,11 +43,17 @@ export default {
     }
   },
   methods: {
-    startGame () {
-
+    async startGame () {
+      const { data } = await startGame()
+      this.game = data.game
+      this.player = data.player
     },
     joinGame (id) {
-
+      // make api call with game id
+      // if error, 
+    },
+    setPlayer (player) {
+      this.player = player
     }
   }
 }
