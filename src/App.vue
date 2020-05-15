@@ -58,3 +58,9 @@ export default {
   }
 }
 </script>
+
+<style lang="css">
+  .flex {
+    display: flex;
+  }
+</style>
