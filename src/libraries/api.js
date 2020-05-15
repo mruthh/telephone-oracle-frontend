@@ -1,4 +1,4 @@
-export const startGame = () => {
+export const initGame = () => {
   // TODO: make a real API call!
   return {
     data: {
@@ -6,4 +6,9 @@ export const startGame = () => {
       game: {}
     }
   }
+}
+
+export const getPlayers = (gameId) => {
+  // TODO: make a real API call!
+  return []
 }

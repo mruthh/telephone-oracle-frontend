@@ -1,6 +1,11 @@
 <template>
   <div>
-    <HostControls v-if="player.isHost"></HostControls>
+    <HostControls 
+      v-if="player.isHost"
+      @start="startGame"
+      @end="endGame"
+    />
+    
   </div>
 </template>
 

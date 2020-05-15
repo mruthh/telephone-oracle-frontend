@@ -22,7 +22,7 @@
 import Game from './components/Game'
 import Start from './components/Start'
 import Finale from './components/Finale'
-import { startGame } from './libraries/api'
+import { initGame } from './libraries/api'
 
 export default {
   name: 'app',
@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     async startGame () {
-      const { data } = await startGame()
+      const { data } = await initGame()
       this.game = data.game
       this.player = data.player
     },
