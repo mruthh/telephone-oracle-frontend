@@ -9,7 +9,6 @@
       :sheetId="activeSheetId"
       @add="addLine"
     />
-    
   </div>
 </template>
 
