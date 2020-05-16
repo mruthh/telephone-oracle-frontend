@@ -8,11 +8,11 @@
 <script>
   export default {
     props: {
-      state: {
+      status: {
         type: String,
         required: true,
-        validator (state) {
-          return ['open', 'active'].includes(state)
+        validator (status) {
+          return ['open', 'active'].includes(status)
         }
       }
     }

@@ -1,16 +1,22 @@
+import axios from 'axios'
+axios.defaults.baseURL = process.env.VUE_APP_API_URL
+
 export const initGame = () => {
-  // TODO: make a real API call!
-  return {
-    data: {
-      player: {},
-      game: {}
-    }
-  }
+  return axios.post('/game')
+}
+
+export const startGame = (id) => {
+  return axios.post('/game/start', {
+    id
+  })
 }
 
 export const getPlayers = (gameId) => {
-  // TODO: make a real API call!
-  return { data: [] }
+  return axios.get('/game', {
+    params: {
+      gameId
+    }
+  })
 }
 
 export const getSheet = (sheetId) => {

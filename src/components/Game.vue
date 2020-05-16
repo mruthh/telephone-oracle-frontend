@@ -2,10 +2,12 @@
   <div>
     <HostControls 
       v-if="player.isHost"
+      :status="game.status"
       @start="startGame"
       @end="endGame"
     />
     <QuestionInput
+      v-if="gameIsActive"
       :sheetId="activeSheetId"
       @add="addLine"
     />
@@ -17,9 +19,10 @@
 import HostControls from './game/HostControls'
 import Players from './game/Players'
 import QuestionInput from './game/QuestionInput'
-import { addLine } from '../libraries/api'
+import { startGame, addLine } from '../libraries/api'
 
   export default {
+    components: { HostControls, Players, QuestionInput },
     props: {
       game: {
         type: Object,
@@ -38,6 +41,9 @@ import { addLine } from '../libraries/api'
       }
     },
     computed: {
+      gameIsActive () {
+        return this.game.status === 'active'
+      },
       activeSheetId () {
         return this.player.queue.length ? this.player.queue[0] : null
       }
@@ -45,6 +51,12 @@ import { addLine } from '../libraries/api'
     methods: {
       addLine (line) {
         addLine(this.sheetId, { line, playerId: this.player.uuid })
+      },
+      startGame () {
+        return startGame(this.game.uuid)
+      },
+      endGame () {
+        //TODO
       }
     }
   }
