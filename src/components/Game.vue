@@ -11,6 +11,10 @@
       :sheetId="activeSheetId"
       @add="addLine"
     />
+    <Players
+      :gameId="game.uuid"
+      :localPlayer="player"
+    />
   </div>
 </template>
 
@@ -52,8 +56,9 @@ import { startGame, addLine } from '../libraries/api'
       addLine (line) {
         addLine(this.sheetId, { line, playerId: this.player.uuid })
       },
-      startGame () {
-        return startGame(this.game.uuid)
+      async startGame () {
+        const { data } = await startGame(this.game.uuid)
+        this.$emit('started', data)
       },
       endGame () {
         //TODO

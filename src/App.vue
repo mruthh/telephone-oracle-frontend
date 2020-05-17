@@ -4,14 +4,15 @@
     <Start
       v-if="!game"
       :hasError="hasGameCodeError"
-      @start="startGame"
+      @start="initGame"
       @join="joinGame"
     />
     <Game 
       v-if="showGame" 
       :game="game" 
-      :player="player" 
-      @playerCreated="setPlayer" 
+      :player="player"
+      @playerCreated="setPlayer"
+      @started="handleGameStart"
     />
     <Finale v-if="showFinale" :game="game" :player="player" />
   </div>
@@ -31,6 +32,8 @@ export default {
     return {
       game: null,
       player: null,
+      players: null,
+      sheets: null,
       hasGameCodeError: false
     }
   },
@@ -43,7 +46,7 @@ export default {
     }
   },
   methods: {
-    async startGame () {
+    async initGame () {
       const { data } = await initGame()
       this.game = data.game
       this.player = data.player
@@ -54,6 +57,11 @@ export default {
     },
     setPlayer (player) {
       this.player = player
+    },
+    handleGameStart (data) {
+      this.game = data.game
+      this.players = data.players
+      this.sheets = data.sheets
     }
   }
 }

@@ -12,10 +12,8 @@ export const startGame = (id) => {
 }
 
 export const getPlayers = (gameId) => {
-  return axios.get('/game', {
-    params: {
-      gameId
-    }
+  return axios.get('/player', {
+    params: { id: gameId }
   })
 }
 

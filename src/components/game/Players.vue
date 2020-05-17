@@ -28,7 +28,7 @@ import { getPlayers } from '../../libraries/api'
       },
       sheets: {
         type: Array,
-        required: true
+        default: () => []
       }
     },
     data () {
@@ -37,7 +37,7 @@ import { getPlayers } from '../../libraries/api'
       }
     },
     async created () {
-      const { data } = await getPlayers(gameId)
+      const { data } = await getPlayers(this.gameId)
       this.players = data.players
     }
   }
