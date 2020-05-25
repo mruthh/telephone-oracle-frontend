@@ -18,8 +18,8 @@ import { getPlayers } from '../../libraries/api'
 
   export default {
     props: {
-      gameId: {
-        type: [String, Number],
+      game: {
+        type: Object,
         required: true
       },
       localPlayer: {
@@ -33,12 +33,14 @@ import { getPlayers } from '../../libraries/api'
     },
     data () {
       return {
-        players: []
+        order: []
       }
     },
-    async created () {
-      const { data } = await getPlayers(this.gameId)
-      this.players = data.players
+    methods: {
+      updateOrder () {
+        // TODO: allow updating order
+        this.$emit('updateOrder', [])
+      }
     }
   }
 </script>

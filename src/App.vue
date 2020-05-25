@@ -11,6 +11,7 @@
       v-if="showGame" 
       :game="game" 
       :player="player"
+      :players="players"
       @playerCreated="setPlayer"
       @started="handleGameStart"
     />
@@ -23,6 +24,7 @@
 import Game from './components/Game'
 import Start from './components/Start'
 import Finale from './components/Finale'
+import io from 'socket.io-client'
 import { initGame } from './libraries/api'
 
 export default {
@@ -34,7 +36,8 @@ export default {
       player: null,
       players: null,
       sheets: null,
-      hasGameCodeError: false
+      hasGameCodeError: false,
+      socket: null
     }
   },
   computed: {
@@ -50,6 +53,22 @@ export default {
       const { data } = await initGame()
       this.game = data.game
       this.player = data.player
+
+      this.socket = io(process.env.VUE_APP_BASE_URL)
+        this.socket.on('connect', () => {
+          console.log('connected to socket!')
+        })
+        this.socket.on('update', (data) => {
+          this.game = data.game,
+          this.players = data.players,
+          this.sheets = data.sheets
+        })
+        this.socket.on('disconnect', function(){
+          console.log('disconnected!')
+        })
+    },
+    broadcast(data) {
+
     },
     joinGame (id) {
       // make api call with game id
@@ -62,6 +81,12 @@ export default {
       this.game = data.game
       this.players = data.players
       this.sheets = data.sheets
+    },
+    created () {
+      // TODO: fetch players when needed OR add thru socket
+    },
+    beforeDestroy() {
+      this.socket.disconnect()
     }
   }
 }

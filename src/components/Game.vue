@@ -12,8 +12,10 @@
       @add="addLine"
     />
     <Players
-      :gameId="game.uuid"
+      :players="players"
+      :game="game"
       :localPlayer="player"
+      @updateOrder="updatePlayerOrder"
     />
   </div>
 </template>
