@@ -1,8 +1,9 @@
 <template>
   <div>
+    {{ game.uuid }}
     <HostControls 
       v-if="player.isHost"
-      :status="game.status"
+      status="active"
       @start="startGame"
       @end="endGame"
     />
@@ -28,6 +29,7 @@ import QuestionInput from './game/QuestionInput'
 import { startGame, addLine } from '../libraries/api'
 
   export default {
+    name: 'Game',
     components: { HostControls, Players, QuestionInput },
     props: {
       game: {

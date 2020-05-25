@@ -11,9 +11,22 @@ export const startGame = (id) => {
   })
 }
 
+export const getGame = (id) => {
+  return axios.get({
+    url: '/game',
+    params: { id }
+  })
+}
 export const getPlayers = (gameId) => {
   return axios.get('/player', {
     params: { id: gameId }
+  })
+}
+
+export const createPlayer = (gameId) => {
+  return axios.post({
+    url: '/player',
+    body: { gameId }
   })
 }
 

@@ -7,33 +7,30 @@
       @start="initGame"
       @join="joinGame"
     />
-    <Game 
-      v-if="showGame" 
+    <component v-if="game" :is="gameComponent"
       :game="game" 
-      :player="player"
+      :localPlayer="localPlayer"
       :players="players"
-      @playerCreated="setPlayer"
-      @started="handleGameStart"
     />
-    <Finale v-if="showFinale" :game="game" :player="player" />
   </div>
 </template>
 
 <script> 
 
-import Game from './components/Game'
 import Start from './components/Start'
+import Pregame from './components/Pregame'
+import Game from './components/Game'
 import Finale from './components/Finale'
 import io from 'socket.io-client'
-import { initGame } from './libraries/api'
+import { initGame, getGame, createPlayer } from './libraries/api'
 
 export default {
   name: 'app',
-  components: { Start, Game, Finale },
+  components: { Start, Pregame, Game, Finale },
   data () {
     return {
       game: null,
-      player: null,
+      localPlayerId: null,
       players: null,
       sheets: null,
       hasGameCodeError: false,
@@ -41,40 +38,74 @@ export default {
     }
   },
   computed: {
-    showGame () { 
-      return this.game && ['open', 'active'].includes(this.game.status)
+    gameComponent () {
+      if (!this.game) return null
+      if (this.game.status === 'open') return 'Pregame'
+      if (this.game.status === 'active') return 'Game'
+      return 'Finale'
     },
-    showFinale () {
-      return this.game && this.game.status === 'complete'
+    localPlayer () {
+      if (!this.localPlayerId || !this.players.length) return null
+      return this.players.find(player => player.uuid === this.localPlayerId)
+    },
+    ioNamespace () {
+      if (!this.game) return null
+      return process.env.VUE_APP_BASE_URL + '/' + this.game.uuid
     }
   },
   methods: {
     async initGame () {
       const { data } = await initGame()
+      debugger
       this.game = data.game
-      this.player = data.player
-
-      this.socket = io(process.env.VUE_APP_BASE_URL)
+      this.players = data.players
+      this.localPlayerId = data.players[0].uuid
+      this.initSocket()
+    },
+    initSocket (gameId) {
+      this.socket = io(this.ioNamespace)
         this.socket.on('connect', () => {
           console.log('connected to socket!')
-        })
-        this.socket.on('update', (data) => {
-          this.game = data.game,
-          this.players = data.players,
-          this.sheets = data.sheets
         })
         this.socket.on('disconnect', function(){
           console.log('disconnected!')
         })
+        this.socket.on('player:add', (player) => {
+          this.addPlayer(player)
+        })
     },
-    broadcast(data) {
-
+    addPlayer (player) {
+      const existingPlayer = this.players.find(p => {
+        player.uuid === p.uuid
+      })
+      if (existingPlayer) return
+      this.players = [...this.players, player]
     },
-    joinGame (id) {
+    async joinGame (id) {
       // make api call with game id
-      // if error, 
+      try {
+        const { data } = await getGame(id)
+      } catch (e) {
+        console.error(e)
+      }
+      const { game, players } = data
+      if (game.status !== 'open') {
+        console.error('this game code is incorrect, or this game is not accepting new players')
+        return
+      }
+      
+      // if game is open, connect to socket and create a player
+      this.game = game
+      this.players = players
+      this.initSocket(gameId)
+      try {
+        const player = await createPlayer(gameId)
+      } catch (e) {
+        console.error(e)
+      }
+      this.localPlayerId = player.uuid
     },
-    setPlayer (player) {
+    async createPlayer () {
       this.player = player
     },
     handleGameStart (data) {
