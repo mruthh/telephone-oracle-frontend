@@ -8,30 +8,44 @@
     />
     <ul>
       <Player 
-        v-for="player in players" 
+        v-for="(player, index) in players" 
         :key="player.uuid" 
         :isUser="localPlayer.uuid === player.uuid"
+        :order="index"
       />
     </ul>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'Pregame',
-    props: {
-      players: {
-        type: Array,
-        default: []
-      },
-      game: {
-        type: Object,
-        required: true
-      },
-      localPlayer: {
-        type: Object,
-        required: true
-      }
+
+import HostControls from './game/HostControls'
+import Player from './game/Player'
+import { startGame } from '../libraries/api'
+
+export default {
+  name: 'Pregame',
+  components: { HostControls, Player },
+  props: {
+    players: {
+      type: Array,
+      required: true
+    },
+    game: {
+      type: Object,
+      required: true
+    },
+    localPlayer: {
+      type: Object,
+      required: true
     }
+  },
+  methods: {
+    async startGame () {
+      const data = await startGame(this.game.uuid)
+      this.$emit('started', data)
+    },
   }
+
+}
 </script>

@@ -7,7 +7,7 @@
       @start="initGame"
       @join="joinGame"
     />
-    <component v-if="game" :is="gameComponent"
+    <component v-if="game && players && localPlayer" :is="gameComponent"
       :game="game" 
       :localPlayer="localPlayer"
       :players="players"
@@ -56,7 +56,6 @@ export default {
   methods: {
     async initGame () {
       const { data } = await initGame()
-      debugger
       this.game = data.game
       this.players = data.players
       this.localPlayerId = data.players[0].uuid

@@ -21,13 +21,19 @@ export default {
       default: false
     },
     status: {
-      type: String,
-      
+      type: String
+    },
+    order: {
+      type: Number,
+      required: true
     }
   },
   computed: {
     queue () {
-      return player.queue || []
+      return this.player.queue || []
+    },
+    name () {
+      return this.player.name || `Player${this.player.order}`
     }
   }
 }

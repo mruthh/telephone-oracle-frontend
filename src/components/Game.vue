@@ -26,7 +26,6 @@
 import HostControls from './game/HostControls'
 import Players from './game/Players'
 import QuestionInput from './game/QuestionInput'
-import { startGame, addLine } from '../libraries/api'
 
   export default {
     name: 'Game',
@@ -41,13 +40,6 @@ import { startGame, addLine } from '../libraries/api'
         default: null
       }
     },
-    created () {
-      if (!this.player) {
-        // create new player
-        // pass player back to App
-        this.$emit('playerCreated')
-      }
-    },
     computed: {
       gameIsActive () {
         return this.game.status === 'active'
@@ -59,10 +51,6 @@ import { startGame, addLine } from '../libraries/api'
     methods: {
       addLine (line) {
         addLine(this.sheetId, { line, playerId: this.player.uuid })
-      },
-      async startGame () {
-        const { data } = await startGame(this.game.uuid)
-        this.$emit('started', data)
       },
       endGame () {
         //TODO
