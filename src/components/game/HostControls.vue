@@ -1,15 +1,16 @@
 <template>
   <div>
-    <button
+    <v-btn
       v-if="status === 'open'"
+      color="primary"
       @click="$emit('start')">
       Start Game
-    </button>
-    <button 
+    </v-btn>
+    <v-btn 
       v-if="status === 'active'" 
       @click="$emit('end')"
     >End Game
-    </button>
+    </v-btn>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ game.uuid }}
+    <p class="font-italic">Waiting for players to join...</p>
     <HostControls 
       v-if="localPlayer.isHost"
       status="open"
