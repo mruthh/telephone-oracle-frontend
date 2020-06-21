@@ -4,7 +4,10 @@
       <div class="mr-2" v-if="isUser">(You)</div>
       <v-icon 
         v-for="sheet in player.queue" 
-        :key="sheet.uuid">
+        :key="sheet.uuid"
+        small
+        color="accent"
+        >
           fas fa-scroll
         </v-icon>
     </v-list-item>
