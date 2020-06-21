@@ -1,6 +1,10 @@
 <template>
   <v-app>
-    <h1>Telephone Oracle - Pandemic Edition</h1>
+    <header class="mx-4">
+      <h1>Telephone Oracle</h1>
+      <p class="subtitle-1 font-italic">Pandemic edition</p>
+    </header>
+    <v-main class="mx-4">
     <Start
       v-if="!game"
       :hasError="hasGameCodeError"
@@ -12,6 +16,7 @@
       :localPlayer="localPlayer"
       :players="players"
     />
+    </v-main>
   </v-app>
 </template>
 
@@ -121,9 +126,3 @@ export default {
   }
 }
 </script>
-
-<style lang="css">
-  .flex {
-    display: flex;
-  }
-</style>

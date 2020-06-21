@@ -1,23 +1,20 @@
 <template>
   <div>
-    <form @submit.prevent="joinGame">
-      <!-- <label for="game-code">Got a game code? Paste it here</label> -->
-      <v-text-field 
-        id="game-code"
-        label="Got a game code? Paste it here"
-        :aria-describedby="hasError ? 'game-code-invalid' : null"
-        type="text"
-      />
-      <p id="game-code-invalid" v-if="hasError">Please enter a valid game code</p>
-    </form>
-
     <v-btn
+      class="my-4"
       color="primary"
       @click="$emit('start')"
       >Start a new game
     </v-btn>
 
-
+    <form @submit.prevent="joinGame" class="mt-4">
+      <v-text-field 
+        clearable
+        label="Got a game code? Paste it here"
+        :aria-describedby="hasError ? 'game-code-invalid' : null"
+      />
+      <p id="game-code-invalid" v-if="hasError">Please enter a valid game code</p>
+    </form>
   </div>
 </template>
 
