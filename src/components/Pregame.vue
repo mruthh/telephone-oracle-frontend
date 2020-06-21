@@ -1,10 +1,11 @@
 <template>
   <div>
     <p class="font-italic">Waiting for players to join...</p>
-    <ul>
+    <ul v-if="players.length">
       <Player 
         v-for="(player, index) in players" 
         :key="player.uuid" 
+        :player="player"
         :isUser="localPlayer.uuid === player.uuid"
         :order="index"
       />
