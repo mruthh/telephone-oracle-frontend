@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <header class="mx-4">
+    <header class="mt-4 mx-4">
       <h1>Telephone Oracle</h1>
       <p class="subtitle-1 font-italic">Pandemic edition</p>
     </header>
