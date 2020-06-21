@@ -1,11 +1,6 @@
 <template>
   <div>
     <p class="font-italic">Waiting for players to join...</p>
-    <HostControls 
-      v-if="localPlayer.isHost"
-      status="open"
-      @start="startGame"
-    />
     <ul>
       <Player 
         v-for="(player, index) in players" 
@@ -14,6 +9,11 @@
         :order="index"
       />
     </ul>
+    <HostControls 
+      v-if="localPlayer.isHost"
+      status="open"
+      @start="startGame"
+    />
   </div>
 </template>
 
