@@ -1,11 +1,13 @@
 <template>
-    <li class="flex">
-      <div>{{ player.name }}</div>
-      <div v-if="isUser">(You)</div>
-      <div v-for="sheetId in player.queue" :key="sheetId">
-        &#9824;
-      </div>
-    </li>
+    <v-list-item class="d-flex">
+      <div class="mr-2">{{ name }}</div>
+      <div class="mr-2" v-if="isUser">(You)</div>
+      <v-icon 
+        v-for="sheet in player.queue" 
+        :key="sheet.uuid">
+          fas fa-scroll
+        </v-icon>
+    </v-list-item>
 </template>
 
 <script>
@@ -33,7 +35,7 @@ export default {
       return this.player.queue || []
     },
     name () {
-      return this.player.name || `Player${this.player.order}`
+      return this.player.name || `Player${this.order + 1}`
     }
   }
 }

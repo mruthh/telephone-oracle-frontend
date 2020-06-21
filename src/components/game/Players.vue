@@ -1,46 +1,56 @@
 <template>
   <section>
-    <ul>
-      <li v-for="player in players" :key="player.uuid" class="flex">
-        <div>{{ player.name }}</div>
-        <div v-if="localPlayer.uuid === player.uuid">(You)</div>
-        <div v-for="(sheetId) in player.queue" :key="sheetId">
-          &#9824;
-        </div>
-      </li>
-    </ul>
+    <v-list 
+      v-if="players.length"
+      outlined
+      elevation="3"
+      width="25%"
+      min-width="250px"
+      
+    >
+    <v-subheader>Players</v-subheader>
+      <Player 
+        v-for="(player, index) in players" 
+        :key="player.uuid" 
+        :player="player"
+        :isUser="localPlayer.uuid === player.uuid"
+        :order="index"
+      />
+      </v-list>
   </section>
 </template>
 
 <script>
 
-import { getPlayers } from '../../libraries/api'
 
-  export default {
-    props: {
-      game: {
-        type: Object,
-        required: true
-      },
-      localPlayer: {
-        type: Object,
-        required: true
-      },
-      sheets: {
-        type: Array,
-        default: () => []
-      }
+import Player from './Player'
+
+export default {
+  components: { Player },
+  props: {
+    localPlayer: {
+      type: Object,
+      required: true
     },
-    data () {
-      return {
-        order: []
-      }
+    sheets: {
+      type: Array,
+      default: () => []
     },
-    methods: {
-      updateOrder () {
-        // TODO: allow updating order
-        this.$emit('updateOrder', [])
-      }
+    players: {
+      type: Array,
+      default: () => []
+    }
+  },
+  data () {
+    return {
+      order: []
+    }
+  },
+  methods: {
+    updateOrder () {
+      // TODO: allow updating order
+      this.$emit('updateOrder', [])
     }
   }
+}
 </script>

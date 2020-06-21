@@ -5,6 +5,8 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import colors from 'vuetify/lib/util/colors'
 
+import '@fortawesome/fontawesome-free/css/all.css' // Ensure you are using css-loader
+
 Vue.use(Vuetify)
 
 const opts = {
@@ -16,6 +18,9 @@ const opts = {
         accent: colors.indigo.base
       },
     },
+  },
+  icons: {
+    iconfont: 'fa',
   },
 }
 

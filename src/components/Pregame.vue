@@ -1,17 +1,10 @@
 <template>
-  <div>
+  <div class="d-flex flex-column justify-space-between">
     <p class="font-italic">Waiting for players to join...</p>
-    <ul v-if="players.length">
-      <Player 
-        v-for="(player, index) in players" 
-        :key="player.uuid" 
-        :player="player"
-        :isUser="localPlayer.uuid === player.uuid"
-        :order="index"
-      />
-    </ul>
-    <HostControls 
+    <Players :players="players" :localPlayer="localPlayer" />
+    <HostControls
       v-if="localPlayer.isHost"
+      class="mt-4"
       status="open"
       @start="startGame"
     />
@@ -21,12 +14,12 @@
 <script>
 
 import HostControls from './game/HostControls'
-import Player from './game/Player'
+import Players from './game/Players'
 import { startGame } from '../libraries/api'
 
 export default {
   name: 'Pregame',
-  components: { HostControls, Player },
+  components: { HostControls, Players },
   props: {
     players: {
       type: Array,
