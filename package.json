@@ -11,15 +11,20 @@
     "axios": "^0.19.2",
     "core-js": "^2.6.5",
     "socket.io-client": "^2.3.0",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vuetify": "^2.3.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.6.0",
     "@vue/cli-plugin-eslint": "^3.6.0",
-    "@vue/cli-service": "^3.6.0",
+    "@vue/cli-service": "^4.4.4",
     "babel-eslint": "^10.0.1",
+    "deepmerge": "^4.2.2",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "fibers": "^5.0.0",
+    "sass": "^1.26.8",
+    "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {

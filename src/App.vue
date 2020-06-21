@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-app>
     <h1>Telephone Oracle - Pandemic Edition</h1>
     <Start
       v-if="!game"
@@ -12,7 +12,7 @@
       :localPlayer="localPlayer"
       :players="players"
     />
-  </div>
+  </v-app>
 </template>
 
 <script> 
