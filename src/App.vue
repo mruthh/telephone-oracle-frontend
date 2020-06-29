@@ -117,7 +117,10 @@ export default {
         this.game = game
         this.players = players
         this.initSocket(game.uuid)
+
+        // we can't use { data } here because it's already been declared
         const player = await createPlayer(game.uuid)
+        this.addPlayer(player.data)
         this.localPlayerId = player.data.uuid
       } catch (e) {
         console.error(e)
