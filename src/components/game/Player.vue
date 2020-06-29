@@ -2,6 +2,10 @@
     <v-list-item class="d-flex">
       <div class="mr-2">{{ name }}</div>
       <div class="mr-2" v-if="isUser">(You)</div>
+      <v-chip v-if="player.isHost" color="accent" small>
+        <i class="fas fa-crown mr-2"></i>
+        Host
+      </v-chip>
       <v-icon 
         v-for="sheet in player.queue" 
         :key="sheet.uuid"
