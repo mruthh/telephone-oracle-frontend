@@ -60,6 +60,21 @@ export default {
       return process.env.VUE_APP_BASE_URL + '/' + this.game.uuid
     }
   },
+  watch: {
+    'window.location': {
+      deep: true,
+      handler: (to, from) => {
+        if (to.location === from.location) return
+        this.getGameFromRoute() 
+      }
+    }
+  },
+  created () {
+    this.getGameFromRoute()
+  },
+  beforeDestroy() {
+    this.socket.disconnect()
+  },
   methods: {
     async initGame () {
       const { data } = await initGame()
@@ -80,7 +95,7 @@ export default {
           this.addPlayer(player)
         })
     },
-    addPlayer (player) {
+     addPlayer (player) {
       const existingPlayer = this.players.find(p => {
         player.uuid === p.uuid
       })
@@ -91,25 +106,22 @@ export default {
       // make api call with game id
       try {
         const { data } = await getGame(id)
+        const { game, players } = data
+        
+        if (game.status !== 'open') {
+          console.error('this game code is incorrect, or this game is not accepting new players')
+          return
+        }
+        
+        // if game is open, connect to socket and create a player
+        this.game = game
+        this.players = players
+        this.initSocket(game.uuid)
+        const player = await createPlayer(game.uuid)
+        this.localPlayerId = player.data.uuid
       } catch (e) {
         console.error(e)
       }
-      const { game, players } = data
-      if (game.status !== 'open') {
-        console.error('this game code is incorrect, or this game is not accepting new players')
-        return
-      }
-      
-      // if game is open, connect to socket and create a player
-      this.game = game
-      this.players = players
-      this.initSocket(gameId)
-      try {
-        const player = await createPlayer(gameId)
-      } catch (e) {
-        console.error(e)
-      }
-      this.localPlayerId = player.uuid
     },
     async createPlayer () {
       this.player = player
@@ -119,11 +131,13 @@ export default {
       this.players = data.players
       this.sheets = data.sheets
     },
-    created () {
-      // TODO: fetch players when needed OR add thru socket
-    },
-    beforeDestroy() {
-      this.socket.disconnect()
+    getGameFromRoute () {
+      // if there is a gameId in the page route, connect player to the correct game
+      const route = window.location.href.split('/')
+      const gameIndex = route.findIndex(segment => segment === 'game')
+      if (gameIndex === -1) return
+      const gameId = route[gameIndex + 1]
+      this.joinGame(gameId)
     }
   }
 }
