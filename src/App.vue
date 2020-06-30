@@ -29,7 +29,7 @@ import Pregame from './components/Pregame'
 import Game from './components/Game'
 import Finale from './components/Finale'
 import io from 'socket.io-client'
-import { initGame, getGame, createPlayer } from './libraries/api'
+import { initGame, getGame, createPlayer, getPlayers } from './libraries/api'
 
 export default {
   name: 'app',
@@ -73,7 +73,9 @@ export default {
     this.getGameFromRoute()
   },
   beforeDestroy() {
-    this.socket.disconnect()
+    if (this.socket) {
+      this.socket.disconnect()
+    }
   },
   methods: {
     async initGame () {
@@ -81,6 +83,7 @@ export default {
       this.game = data.game
       this.players = data.players
       this.localPlayerId = data.players[0].uuid
+      this.storePlayerId()
       this.initSocket()
     },
     initSocket (gameId) {
@@ -92,15 +95,18 @@ export default {
           console.log('disconnected!')
         })
         this.socket.on('player:add', (player) => {
-          this.addPlayer(player)
+          console.log('player added!')
+          this.getPlayers()
+        })
+        this.socket.on('game:start', function(data) {
+          console.log(data)
         })
     },
-     addPlayer (player) {
-      const existingPlayer = this.players.find(p => {
-        player.uuid === p.uuid
-      })
-      if (existingPlayer) return
-      this.players = [...this.players, player]
+    async getPlayers () {
+      const { data } = await getPlayers(this.game.uuid)
+      this.players = data
+      console.log('getPlayers')
+      console.log(this.players)
     },
     async joinGame (id) {
       // make api call with game id
@@ -117,17 +123,32 @@ export default {
         this.game = game
         this.players = players
         this.initSocket(game.uuid)
-
-        // we can't use { data } here because it's already been declared
-        const player = await createPlayer(game.uuid)
-        this.addPlayer(player.data)
-        this.localPlayerId = player.data.uuid
+        this.loadPlayer()
       } catch (e) {
         console.error(e)
       }
     },
+    async loadPlayer () {
+      const id = await window.localStorage.getItem('localPlayerId')
+      // if stored id matches a player in this game, don't create a new player
+      if (id && this.players.find(player => player.uuid === id)) {
+        this.localPlayerId = id
+        return
+      }
+      this.createPlayer()
+      this.getPlayers()
+    },
     async createPlayer () {
-      this.player = player
+      try {
+        const { data } = await createPlayer(this.game.uuid)
+        this.localPlayerId = data.uuid
+        this.storePlayerId()
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    storePlayerId () {
+      window.localStorage.setItem('localPlayerId', this.localPlayerId)
     },
     handleGameStart (data) {
       this.game = data.game
