@@ -16,6 +16,17 @@
     </div>
     
     <p class="font-italic">Waiting for players to join...</p>
+    
+    <v-form @submit.prevent="updatePlayer">
+      <v-text-field 
+        v-model="name"
+        label="Player name"
+        hint="Please enter your name"
+        persistent-hint
+        class="mb-8"
+      />
+    </v-form>
+
     <Players :players="players" :localPlayer="localPlayer" />
     <HostControls
       v-if="localPlayer.isHost"
@@ -30,7 +41,7 @@
 
 import HostControls from './game/HostControls'
 import Players from './game/Players'
-import { startGame } from '../libraries/api'
+import { startGame, updatePlayer } from '../libraries/api'
 
 export default {
   name: 'Pregame',
@@ -51,7 +62,8 @@ export default {
   },
   data () {
     return {
-      copied: false
+      copied: false,
+      name: ''
     }
   },
   methods: {
@@ -67,6 +79,9 @@ export default {
       document.execCommand('copy')
       document.body.removeChild(el)
       this.copied = true
+    },
+    async updatePlayer () {
+      const { data } = updatePlayer(this.localPlayer.uuid, { name: this.name })      
     }
   }
 

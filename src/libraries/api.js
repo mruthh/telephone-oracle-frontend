@@ -29,3 +29,10 @@ export const createPlayer = (gameId) => {
     gameId
  })
 }
+
+export const updatePlayer = (id, params) => {
+  return axios.patch('player', {
+    id,
+    params
+  })
+}

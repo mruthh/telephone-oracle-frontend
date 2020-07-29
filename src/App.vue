@@ -98,6 +98,9 @@ export default {
           console.log('player added!')
           this.getPlayers()
         })
+        this.socket.on('player:update', (player) => {
+          console.log(player)
+        })
         this.socket.on('game:start', function(data) {
           console.log(data)
         })
