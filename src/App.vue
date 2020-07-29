@@ -99,7 +99,7 @@ export default {
           this.getPlayers()
         })
         this.socket.on('player:update', (player) => {
-          console.log(player)
+          this.handlePlayerUpdate(player)
         })
         this.socket.on('game:start', function(data) {
           console.log(data)
@@ -165,6 +165,12 @@ export default {
       if (gameIndex === -1) return
       const gameId = route[gameIndex + 1]
       this.joinGame(gameId)
+    },
+    handlePlayerUpdate (player) {
+      const oldPlayerIndex = this.players.findIndex(p => p.uuid === player.uuid)
+      const players = [...this.players]
+      players.splice(oldPlayerIndex, 1, player)
+      this.players = players
     }
   }
 }
