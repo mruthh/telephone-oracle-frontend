@@ -1,19 +1,22 @@
 <template>
   <div class="d-flex flex-column justify-space-between">
-    
-    <p class="font-italic">Waiting for players to join...</p>
-    
-    <v-form @submit.prevent="updatePlayer">
-      <v-text-field 
-        v-model="name"
-        label="Player name"
-        hint="Please enter your name"
-        persistent-hint
-        class="mb-8"
-      />
-    </v-form>
-    <GameInfo :gameId="game.uuid" />
-    <Players :players="players" :localPlayer="localPlayer" />
+    <ActionPanel>
+      <h2>Please enter your name</h2>
+      <v-form @submit.prevent="updatePlayer">
+        <v-text-field 
+          v-model="name"
+          label="Player name"
+          hint="Please enter your name"
+          persistent-hint
+          class="mb-8"
+        />
+      </v-form>
+    </ActionPanel>
+    <div class="d-flex justify-space-between">
+      <Players :players="players" :localPlayer="localPlayer"/>
+      <GameInfo :gameId="game.uuid"/>
+      
+    </div>
     <HostControls
       v-if="localPlayer.isHost"
       class="mt-4"
@@ -28,11 +31,12 @@
 import HostControls from './game/HostControls'
 import Players from './game/Players'
 import GameInfo from './game/GameInfo'
+import ActionPanel from './wrappers/ActionPanel'
 import { startGame, updatePlayer } from '../libraries/api'
 
 export default {
   name: 'Pregame',
-  components: { HostControls, Players, GameInfo },
+  components: { HostControls, Players, GameInfo, ActionPanel },
   props: {
     players: {
       type: Array,
