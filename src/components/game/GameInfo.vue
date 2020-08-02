@@ -1,32 +1,54 @@
 <template>
-<section class="d-flex align-center">
-  <h2>Game info</h2>
-  
-  <v-btn 
-    small
-    class="ml-4 black--text"
-    color="secondary"
-    @click="copyGameLink"
-  >
-    <span class="mr-2">Copy game link</span>
-    <v-icon small>
-      {{ copied ? 'fas fa-clipboard-check' : 'fas fa-clipboard' }}
-    </v-icon>
-  </v-btn>
+<section class="elevation-3 pa-4">
+  <div class="d-md-flex align-center">
+  <v-subheader>Game {{ game.uuid }} </v-subheader>
+    <v-btn 
+      small
+      class="ml-4 black--text"
+      color="secondary"
+      @click="copyGameLink"
+    >
+      <span class="mr-2">Copy game link</span>
+      <v-icon small>
+        {{ copied ? 'fas fa-clipboard-check' : 'fas fa-clipboard' }}
+      </v-icon>
+    </v-btn>
+  </div>
+  <p class="px-4 font-italic">{{ status }}</p>
+  <HostControls 
+    v-if="localPlayer.isHost" 
+    class="mt-4"
+    status="open"
+    @start="$emit('start')" 
+  />
 </section>
 </template>
 
 <script>
-  export default {
+import HostControls from './HostControls'
+export default {
+    components: { HostControls },
     props: {
-      gameId: {
-        type: String,
+      game: {
+        type: Object,
+        required: true
+      },
+      localPlayer: {
+        type: Object,
         required: true
       }
     },
     data () {
       return {
         copied: false
+      }
+    },
+    computed: {
+      status () {
+        if (this.game.status === 'open') return 'Waiting for players to join...'
+        if (this.game.status === 'active') return 'Speaking with the oracle'
+        if (this.game.status === 'complete') return 'Game complete!'
+        return 'Something is wrong.'
       }
     },
     methods: {

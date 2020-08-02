@@ -12,23 +12,19 @@
         />
       </v-form>
     </ActionPanel>
-    <div class="d-flex justify-space-between">
+    <div class="d-md-flex justify-space-between">
       <Players :players="players" :localPlayer="localPlayer"/>
-      <GameInfo :gameId="game.uuid"/>
-      
+      <GameInfo 
+        :game="game" 
+        :localPlayer="localPlayer"
+        @start="startGame"
+      />
     </div>
-    <HostControls
-      v-if="localPlayer.isHost"
-      class="mt-4"
-      status="open"
-      @start="startGame"
-    />
   </div>
 </template>
 
 <script>
 
-import HostControls from './game/HostControls'
 import Players from './game/Players'
 import GameInfo from './game/GameInfo'
 import ActionPanel from './wrappers/ActionPanel'
@@ -36,7 +32,7 @@ import { startGame, updatePlayer } from '../libraries/api'
 
 export default {
   name: 'Pregame',
-  components: { HostControls, Players, GameInfo, ActionPanel },
+  components: { Players, GameInfo, ActionPanel },
   props: {
     players: {
       type: Array,

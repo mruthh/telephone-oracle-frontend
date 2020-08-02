@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex justify-end">
     <v-btn
       v-if="status === 'open'"
       color="primary"
