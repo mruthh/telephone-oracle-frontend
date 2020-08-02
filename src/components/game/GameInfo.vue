@@ -1,10 +1,14 @@
 <template>
 <v-col class="elevation-3">
-  <div class="d-md-flex align-center">
+  <div>
   <v-subheader>Game {{ game.uuid }} </v-subheader>
-    <v-btn 
+    
+  </div>
+  <p class="pt-4 px-4 font-italic">{{ status }}</p>
+  <div class="d-flex justify-space-between">
+  <v-btn 
       small
-      class="ml-4 black--text"
+      class="ma-4 black--text"
       color="secondary"
       @click="copyGameLink"
     >
@@ -13,14 +17,14 @@
         {{ copied ? 'fas fa-clipboard-check' : 'fas fa-clipboard' }}
       </v-icon>
     </v-btn>
-  </div>
-  <p class="px-4 font-italic">{{ status }}</p>
+  
   <HostControls 
     v-if="localPlayer.isHost" 
     class="mt-4"
     status="open"
     @start="$emit('start')" 
   />
+  </div>
 </v-col>
 </template>
 
