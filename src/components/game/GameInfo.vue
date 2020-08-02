@@ -1,5 +1,5 @@
 <template>
-<section class="elevation-3 pa-4">
+<v-col class="elevation-3">
   <div class="d-md-flex align-center">
   <v-subheader>Game {{ game.uuid }} </v-subheader>
     <v-btn 
@@ -21,7 +21,7 @@
     status="open"
     @start="$emit('start')" 
   />
-</section>
+</v-col>
 </template>
 
 <script>

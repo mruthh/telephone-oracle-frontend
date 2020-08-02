@@ -1,12 +1,9 @@
 <template>
-  <section>
+  <v-col class="elevation-3">
     <v-list 
       v-if="players.length"
-      outlined
-      elevation="3"
-      width="25%"
       min-width="250px"
-      
+      height="100%"
     >
     <v-subheader>Players</v-subheader>
       <Player 
@@ -17,7 +14,7 @@
         :order="index"
       />
       </v-list>
-  </section>
+  </v-col>
 </template>
 
 <script>

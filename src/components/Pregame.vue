@@ -12,14 +12,17 @@
         />
       </v-form>
     </ActionPanel>
-    <div class="d-md-flex justify-space-between">
-      <Players :players="players" :localPlayer="localPlayer"/>
+    <v-container fluid>
+    <v-row class="d-md-flex justify-space-between align-stretch">
+      <Players :players="players" :localPlayer="localPlayer" class="ma-2"/>
       <GameInfo 
         :game="game" 
         :localPlayer="localPlayer"
+        class="ma-2"
         @start="startGame"
       />
-    </div>
+    </v-row>
+    </v-container>
   </div>
 </template>
 
