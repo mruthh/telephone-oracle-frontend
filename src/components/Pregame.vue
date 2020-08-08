@@ -16,7 +16,7 @@
       
       <div v-else>
         <div class="d-flex justify-space-between align-center">
-          <h2>Welcome!</h2>
+          <h2>Welcome {{ localPlayer.name }}!</h2>
           <v-btn 
             small
             class="ma-4 black--text"
@@ -34,35 +34,18 @@
         </p>
       </div>
     </ActionPanel>
-    <v-container fluid>
-    <v-row class="d-md-flex justify-space-between align-stretch">
-      <Players :players="players" :localPlayer="localPlayer" class="ma-2"/>
-      <GameInfo 
-        :game="game" 
-        :localPlayer="localPlayer"
-        class="ma-2"
-        @start="startGame"
-      />
-    </v-row>
-    </v-container>
   </div>
 </template>
 
 <script>
 
-import Players from './game/Players'
-import GameInfo from './game/GameInfo'
 import ActionPanel from './wrappers/ActionPanel'
-import { startGame, updatePlayer } from '../libraries/api'
+import { updatePlayer } from '../libraries/api'
 
 export default {
   name: 'Pregame',
-  components: { Players, GameInfo, ActionPanel },
+  components: { ActionPanel },
   props: {
-    players: {
-      type: Array,
-      required: true
-    },
     game: {
       type: Object,
       required: true
@@ -92,10 +75,6 @@ export default {
       document.execCommand('copy')
       document.body.removeChild(el)
       this.copied = true
-    },
-    async startGame () {
-      const data = await startGame(this.game.uuid)
-      this.$emit('started', data)
     },
     async updatePlayer () {
       const { data } = updatePlayer(this.localPlayer.uuid, { name: this.name })      

@@ -7,17 +7,30 @@
       <p class="subtitle-1 font-italic">Pandemic edition</p>
     </header>
     <v-main class="mx-4">
-    <Start
-      v-if="!game"
-      :hasError="hasGameCodeError"
-      @start="initGame"
-      @join="joinGame"
-    />
-    <component v-if="game && players && localPlayer" :is="gameComponent"
-      :game="game" 
-      :localPlayer="localPlayer"
-      :players="players"
-    />
+      <Start
+        v-if="!game"
+        :hasError="hasGameCodeError"
+        @start="initGame"
+        @join="joinGame"
+      />
+      <component v-if="game && players && localPlayer" :is="gameComponent"
+        :game="game" 
+        :localPlayer="localPlayer"
+        :players="players"
+      />
+      
+      <v-container v-if="game" fluid>
+        <v-row class="d-md-flex justify-space-between align-stretch">
+          <Players :players="players" :localPlayer="localPlayer" class="ma-2"/>
+          <GameInfo 
+            :game="game" 
+            :localPlayer="localPlayer"
+            class="ma-2"
+            @start="startGame"
+          />
+        </v-row>
+      </v-container>
+  
     </v-main>
   </v-app>
 </template>
@@ -28,12 +41,14 @@ import Start from './components/Start'
 import Pregame from './components/Pregame'
 import Game from './components/Game'
 import Finale from './components/Finale'
+import Players from './components/game/Players'
+import GameInfo from './components/game/GameInfo'
 import io from 'socket.io-client'
-import { initGame, getGame, createPlayer, getPlayers } from './libraries/api'
+import { initGame, startGame, getGame, createPlayer, getPlayers } from './libraries/api'
 
 export default {
   name: 'app',
-  components: { Start, Pregame, Game, Finale },
+  components: { Start, Pregame, Game, Finale, Players, GameInfo },
   data () {
     return {
       game: null,
@@ -152,13 +167,11 @@ export default {
         console.error(e)
       }
     },
+    startGame () {
+      startGame(this.game.uuid)
+    },
     storePlayerId () {
       window.localStorage.setItem('localPlayerId', this.localPlayerId)
-    },
-    handleGameStart (data) {
-      this.game = data.game
-      this.players = data.players
-      this.sheets = data.sheets
     },
     getGameFromRoute () {
       // if there is a gameId in the page route, connect player to the correct game
