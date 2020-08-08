@@ -1,15 +1,7 @@
 <template>
-  <div>
-    {{ game.uuid }}
-    <HostControls 
-      v-if="localPlayer.isHost"
-      status="active"
-      @start="startGame"
-      @end="endGame"
-    />
+  <ActionPanel>    
     <QuestionInput
       v-if="gameIsActive"
-      :sheetId="activeSheetId"
       @add="addLine"
     />
     <Players
@@ -18,18 +10,18 @@
       :localPlayer="localPlayer"
       @updateOrder="updatePlayerOrder"
     />
-  </div>
+  </ActionPanel>
 </template>
 
 <script>
 
-import HostControls from './game/HostControls'
-import Players from './game/Players'
+
+import ActionPanel from './wrappers/ActionPanel'
 import QuestionInput from './game/QuestionInput'
 
   export default {
     name: 'Game',
-    components: { HostControls, Players, QuestionInput },
+    components: { QuestionInput },
     props: {
       game: {
         type: Object,
@@ -45,12 +37,12 @@ import QuestionInput from './game/QuestionInput'
         return this.game.status === 'active'
       },
       activeSheetId () {
-        return this.player.queue.length ? this.player.queue[0] : null
+        return this.localPlayer.queue.length ? this.localPlayer.queue[0] : null
       }
     },
     methods: {
       addLine (line) {
-        addLine(this.sheetId, { line, playerId: this.player.uuid })
+        addLine(this.sheetId, { line, playerId: this.localPlayer.uuid })
       },
       endGame () {
         //TODO
