@@ -101,8 +101,10 @@ export default {
         this.socket.on('player:update', (player) => {
           this.handlePlayerUpdate(player)
         })
-        this.socket.on('game:start', function(data) {
-          console.log(data)
+        this.socket.on('game:start', (data) => {
+          this.players = data.players
+          this.game = data.game
+
         })
     },
     async getPlayers () {

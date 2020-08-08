@@ -15,7 +15,7 @@
     class="mt-4"
     status="open"
     :isHost="!!localPlayer.isHost"
-    @start="$emit('start')" 
+    v-on="$listeners"
   />
 </v-col>
 </template>

@@ -2,7 +2,7 @@
   <div>
     {{ game.uuid }}
     <HostControls 
-      v-if="player.isHost"
+      v-if="localPlayer.isHost"
       status="active"
       @start="startGame"
       @end="endGame"
@@ -15,7 +15,7 @@
     <Players
       :players="players"
       :game="game"
-      :localPlayer="player"
+      :localPlayer="localPlayer"
       @updateOrder="updatePlayerOrder"
     />
   </div>
@@ -35,7 +35,7 @@ import QuestionInput from './game/QuestionInput'
         type: Object,
         required: true
       },
-      player: {
+      localPlayer: {
         type: Object,
         default: null
       }
