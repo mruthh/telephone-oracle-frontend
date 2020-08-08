@@ -8,11 +8,12 @@
       </v-chip>
       <v-icon 
         v-for="sheet in player.queue" 
+        class="mx-2"
         :key="sheet.uuid"
-        small
-        color="accent"
+        
+        color="primary"
         >
-          fas fa-scroll
+          far fa-sticky-note
         </v-icon>
     </v-list-item>
 </template>
