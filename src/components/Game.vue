@@ -1,7 +1,22 @@
 <template>
   <ActionPanel>    
     <!-- TODO: make this styled action panel text, add a real header -->
-    <h2>{{ prompt }}</h2>
+    <div v-if="!sheet">Waiting for the oracle...</div>
+    <div v-if="sheet">
+      <div v-if="!lastLine">
+        <p>Please enter a question for the Oracle</p>
+        <v-form @submit.prevent="" class="d-md-flex align-center">
+          <v-text-field class="mr-8"></v-text-field>
+          <v-btn type="submit" color="primary">
+            {{ isQuestion ? 'Submit question' : 'Submit answer'}}
+          </v-btn>
+        </v-form>
+      </div>
+      <div v-if="lastLine && lastLine.text">
+        <p>{{ isQuestion ? 'Your answer' : 'Your question'}}</p>
+        <p>{{ isQuestion ? 'Please enter a question' : 'Please enter an answer' }}</p>
+      </div>
+    </div>
   </ActionPanel>
 </template>
 
@@ -9,11 +24,11 @@
 
 
 import ActionPanel from './wrappers/ActionPanel'
-import QuestionInput from './game/QuestionInput'
+import { getLastLine } from '../libraries/api'
 
   export default {
+    components: { ActionPanel },
     name: 'Game',
-    components: { QuestionInput },
     props: {
       game: {
         type: Object,
@@ -23,17 +38,24 @@ import QuestionInput from './game/QuestionInput'
         type: Object,
         default: null
       },
-      sheetId: {
-        type: Number,
+      sheet: {
+        type: Object,
         default: null
+      }
+    },
+    data () {
+      return {
+        lastLine: null
       }
     },
     computed: {
       gameIsActive () {
         return this.game.status === 'active'
       },
-      activeSheetId () {
-        return this.localPlayer.queue.length ? this.localPlayer.queue[0] : null
+      isQuestion () {
+        // if last line was an answer, this is a question
+        if (!this.lastLine) return true
+        return !(this.lastLine.order % 2)
       }
     },
     methods: {
@@ -45,10 +67,12 @@ import QuestionInput from './game/QuestionInput'
       }
     },
     watch: {
-      sheetId: {
-        immediate: true,
-        async handler (id) {
-          
+      sheet: {
+        // TODO: handle sheets with no lines yet
+        async handler (sheet) {
+          if (!sheet.uuid) return
+          const line = await getLastLine(sheet.uuid)
+          this.lastLine = line
         }
       }
     }

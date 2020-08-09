@@ -17,7 +17,7 @@
         :game="game" 
         :localPlayer="localPlayer"
         :players="players"
-        :sheetId="activeSheetId"
+        :sheet="activeSheet"
       />
       
       <v-container v-if="game" fluid>
@@ -74,10 +74,11 @@ export default {
       if (!this.game) return null
       return process.env.VUE_APP_BASE_URL + '/' + this.game.uuid
     },
-    activeSheetId () {
-      if (!this.game.status === 'active') return null
-      if (!this.localPlayer.sheets.length) return null
-      return this.localPlayer.sheets[0]
+    activeSheet () {
+      if (this.localPlayer && this.localPlayer.queue && this.localPlayer.queue.length) {
+        return this.localPlayer.queue[0]
+      }
+      return null
     }
   },
   watch: {
