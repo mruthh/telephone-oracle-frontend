@@ -1,15 +1,7 @@
 <template>
   <ActionPanel>    
-    <QuestionInput
-      v-if="gameIsActive"
-      @add="addLine"
-    />
-    <Players
-      :players="players"
-      :game="game"
-      :localPlayer="localPlayer"
-      @updateOrder="updatePlayerOrder"
-    />
+    <!-- TODO: make this styled action panel text, add a real header -->
+    <h2>{{ prompt }}</h2>
   </ActionPanel>
 </template>
 
@@ -30,6 +22,10 @@ import QuestionInput from './game/QuestionInput'
       localPlayer: {
         type: Object,
         default: null
+      },
+      sheetId: {
+        type: Number,
+        default: null
       }
     },
     computed: {
@@ -46,6 +42,14 @@ import QuestionInput from './game/QuestionInput'
       },
       endGame () {
         //TODO
+      }
+    },
+    watch: {
+      sheetId: {
+        immediate: true,
+        async handler (id) {
+          
+        }
       }
     }
   }

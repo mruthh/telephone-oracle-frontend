@@ -27,7 +27,7 @@ export const getPlayers = (gameId) => {
 export const createPlayer = (gameId) => {
   return axios.post('player', {
     gameId
- })
+  })
 }
 
 export const updatePlayer = (id, params) => {
@@ -35,4 +35,8 @@ export const updatePlayer = (id, params) => {
     id,
     params
   })
+}
+
+export const getLastLine = (sheetId) => {
+  return axios.get({ sheetId })
 }
