@@ -76,10 +76,10 @@ export default {
       return process.env.VUE_APP_BASE_URL + '/' + this.game.uuid
     },
     activeSheet () {
-      if (this.localPlayer && this.localPlayer.queue && this.localPlayer.queue.length) {
-        return this.localPlayer.queue[0]
-      }
-      return null
+      if (!this.localPlayer) return null
+      const queue = this.queues[this.localPlayer.uuid]
+      if (!queue || !queue.length) return null
+      return queue[0]
     }
   },
   watch: {
@@ -126,6 +126,7 @@ export default {
         this.socket.on('game:start', (data) => {
           this.players = data.players
           this.game = data.game
+          this.buildQueues(data.sheets)
         })
         this.socket.on('sheet:pass', (data) => {
           console.log(data)
