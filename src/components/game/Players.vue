@@ -12,6 +12,7 @@
         :player="player"
         :isUser="localPlayer.uuid === player.uuid"
         :order="index"
+        v-bind="$attrs"
       />
       </v-list>
   </v-col>
@@ -28,10 +29,6 @@ export default {
     localPlayer: {
       type: Object,
       required: true
-    },
-    sheets: {
-      type: Array,
-      default: () => []
     },
     players: {
       type: Array,

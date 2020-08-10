@@ -7,7 +7,7 @@
         Host
       </v-chip>
       <v-icon 
-        v-for="sheet in player.queue" 
+        v-for="sheet in queue" 
         class="mx-2"
         :key="sheet.uuid"
         
@@ -36,11 +36,15 @@ export default {
     order: {
       type: Number,
       required: true
+    },
+    queues: {
+      type: Object,
+      required: true
     }
   },
   computed: {
     queue () {
-      return this.player.queue || []
+      return this.queues[this.player.uuid] || []
     },
     name () {
       return this.player.name || `Player${this.order + 1}`

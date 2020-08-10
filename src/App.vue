@@ -22,7 +22,12 @@
       
       <v-container v-if="game" fluid>
         <v-row class="d-md-flex justify-space-between align-stretch">
-          <Players :players="players" :localPlayer="localPlayer" class="ma-2"/>
+          <Players 
+            :players="players" 
+            :localPlayer="localPlayer" 
+            :queues="queues"
+            class="ma-2" 
+            />
           <GameInfo 
             :game="game" 
             :localPlayer="localPlayer"

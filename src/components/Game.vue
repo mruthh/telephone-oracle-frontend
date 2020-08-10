@@ -80,7 +80,8 @@ import { getLastLine, addLine } from '../libraries/api'
       sheet: {
         // TODO: handle sheets with no lines yet
         async handler (sheet) {
-          if (!sheet.uuid) return
+          debugger
+          if (!sheet) return
           const line = await getLastLine(sheet.uuid)
           this.lastLine = line
         }
