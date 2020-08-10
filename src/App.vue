@@ -56,7 +56,8 @@ export default {
       localPlayerId: null,
       players: null,
       hasGameCodeError: false,
-      socket: null
+      socket: null,
+      queues: {}
     }
   },
   computed: {
@@ -128,6 +129,8 @@ export default {
         })
         this.socket.on('sheet:pass', (data) => {
           console.log(data)
+          this.buildQueues(data)
+          console.log(this.queues)
         })
     },
     async getPlayers () {
@@ -194,6 +197,25 @@ export default {
       const players = [...this.players]
       players.splice(oldPlayerIndex, 1, player)
       this.players = players
+    },
+    buildQueues (sheets) {
+      const queues = {}
+      this.players.forEach(player => {
+        // get all sheets for player
+        const queue = sheets
+          .filter(sheet => {
+            return sheet.active_player_id === player.uuid
+          })
+          .sort((a, b) => {
+            if (!a || !b) return 0
+            const aUpdated = new Date(a.updatedAt)
+            const bUpdated = new Date(b.updatedAt)
+            if (aUpdated < bUpdated) return -1
+            return 1
+        })
+        queues[player.uuid] = queue
+      })
+      this.queues = queues
     }
   }
 }
