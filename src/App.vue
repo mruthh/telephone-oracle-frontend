@@ -125,7 +125,9 @@ export default {
         this.socket.on('game:start', (data) => {
           this.players = data.players
           this.game = data.game
-
+        })
+        this.socket.on('sheet:pass', (data) => {
+          console.log(data)
         })
     },
     async getPlayers () {

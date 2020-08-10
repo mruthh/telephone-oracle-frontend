@@ -5,7 +5,7 @@
     <div v-if="sheet">
       <div v-if="!lastLine">
         <p>Please enter a question for the Oracle</p>
-        <v-form @submit.prevent="" class="d-md-flex align-center">
+        <v-form @submit.prevent="addLine" class="d-md-flex align-center">
           <v-text-field class="mr-8"></v-text-field>
           <v-btn type="submit" color="primary">
             {{ isQuestion ? 'Submit question' : 'Submit answer'}}
@@ -24,7 +24,7 @@
 
 
 import ActionPanel from './wrappers/ActionPanel'
-import { getLastLine } from '../libraries/api'
+import { getLastLine, addLine } from '../libraries/api'
 
   export default {
     components: { ActionPanel },
@@ -59,8 +59,18 @@ import { getLastLine } from '../libraries/api'
       }
     },
     methods: {
-      addLine (line) {
-        addLine(this.sheetId, { line, playerId: this.localPlayer.uuid })
+      addLine (event) {
+        const text = event.target[0].value
+        if (!text) {
+          console.error('where is the text')
+          return
+        }
+        addLine({ 
+          text,
+          gameId: this.game.uuid,
+          sheetId: this.sheet.uuid,
+          playerId: this.localPlayer.uuid 
+        })
       },
       endGame () {
         //TODO
