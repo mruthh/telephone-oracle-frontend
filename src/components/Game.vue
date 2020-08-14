@@ -10,7 +10,8 @@
         <v-form @submit.prevent="addLine" class="d-md-flex align-start">
           <v-textarea 
             :label="label" 
-            :rows="1" 
+            :rows="1"
+            v-model="line"
             auto-grow 
             class="mr-8"
           />
@@ -47,6 +48,7 @@ import { getLastLine, addLine } from '../libraries/api'
     },
     data () {
       return {
+        line: null,
         lastLine: null
       }
     },
@@ -66,11 +68,12 @@ import { getLastLine, addLine } from '../libraries/api'
     },
     methods: {
       addLine (event) {
-        const text = event.target[0].value
+        const text = this.line
         if (!text) {
           console.error('where is the text')
           return
         }
+        this.line = null
         addLine({ 
           text,
           gameId: this.game.uuid,
