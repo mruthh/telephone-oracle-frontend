@@ -38,7 +38,9 @@ export const updatePlayer = (id, params) => {
 }
 
 export const getLastLine = (sheetId) => {
-  return axios.get('/line/last', { sheetId })
+  return axios.get('/line/last', {
+    params: { sheetId }
+  })
 }
 
 export const addLine = (params) => {
