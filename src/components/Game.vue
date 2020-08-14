@@ -1,22 +1,24 @@
 <template>
-  <ActionPanel>    
-    <!-- TODO: make this styled action panel text, add a real header -->
+  <ActionPanel>
+    <h2>{{ isQuestion ? 'Ask a question' : 'Answer a question' }}</h2>    
+    <p v-if="lastLine" class="font-italic my-4">
+      <span>{{ isQuestion ? 'Answer:' : 'Question:'}}</span>
+      {{ lastLine.text }}
+    </p>
     <div v-if="!sheet">Waiting for the oracle...</div>
     <div v-if="sheet">
-      <div v-if="!lastLine">
-        <p>Please enter a question for the Oracle</p>
-        <v-form @submit.prevent="addLine" class="d-md-flex align-center">
-          <v-text-field class="mr-8"></v-text-field>
+        <v-form @submit.prevent="addLine" class="d-md-flex align-start">
+          <v-textarea 
+            :label="label" 
+            :rows="1" 
+            auto-grow 
+            class="mr-8"
+          />
           <v-btn type="submit" color="primary">
             {{ isQuestion ? 'Submit question' : 'Submit answer'}}
           </v-btn>
         </v-form>
       </div>
-      <div v-if="lastLine && lastLine.text">
-        <p>{{ isQuestion ? 'Your answer' : 'Your question'}}</p>
-        <p>{{ isQuestion ? 'Please enter a question' : 'Please enter an answer' }}</p>
-      </div>
-    </div>
   </ActionPanel>
 </template>
 
@@ -56,6 +58,10 @@ import { getLastLine, addLine } from '../libraries/api'
         // if last line was an answer, this is a question
         if (!this.lastLine) return true
         return !(this.lastLine.order % 2)
+      },
+      label () {
+        if (!this.lastLine) return 'Please enter a question for the Oracle'
+        return this.isQuestion ? 'Please enter a question' : 'Please enter an answer'
       }
     },
     methods: {
@@ -80,10 +86,9 @@ import { getLastLine, addLine } from '../libraries/api'
       sheet: {
         // TODO: handle sheets with no lines yet
         async handler (sheet) {
-          debugger
           if (!sheet) return
-          const line = await getLastLine(sheet.uuid)
-          this.lastLine = line
+          const { data } = await getLastLine(sheet.uuid)
+          this.lastLine = data
         }
       }
     }
