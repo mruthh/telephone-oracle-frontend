@@ -88,7 +88,7 @@ export default {
       // return least recently updated sheet
       return queue.reduce((oldest, sheet) => {
         if (!oldest) return sheet
-        return new Date(oldest.updatedAt) < new Date (sheet.updatedAt)
+        return new Date(oldest.updatedAt) <= new Date(sheet.updatedAt)
           ? oldest
           : sheet
       }, null)
