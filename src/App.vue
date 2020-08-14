@@ -84,7 +84,14 @@ export default {
       if (!this.localPlayer) return null
       const queue = this.queues[this.localPlayer.uuid]
       if (!queue || !queue.length) return null
-      return queue[0]
+      
+      // return least recently updated sheet
+      return queue.reduce((oldest, sheet) => {
+        if (!oldest) return sheet
+        return new Date(oldest.updatedAt) < new Date (sheet.updatedAt)
+          ? oldest
+          : sheet
+      }, null)
     }
   },
   watch: {
@@ -212,13 +219,6 @@ export default {
           .filter(sheet => {
             return sheet.active_player_id === player.uuid
           })
-          .sort((a, b) => {
-            if (!a || !b) return 0
-            const aUpdated = new Date(a.updatedAt)
-            const bUpdated = new Date(b.updatedAt)
-            if (aUpdated < bUpdated) return -1
-            return 1
-        })
         queues[player.uuid] = queue
       })
       this.queues = queues
