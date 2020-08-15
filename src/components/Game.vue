@@ -1,11 +1,12 @@
 <template>
   <ActionPanel>
-    <h2>{{ isQuestion ? 'Ask a question' : 'Answer a question' }}</h2>    
-    <p v-if="lastLine" class="font-italic my-4">
+    <h2 v-if="!sheet">Waiting for the oracle...</h2>
+    <h2 v-else-if="!lastLine">Ask the oracle a question</h2>
+    <h2 v-else class="font-italic my-4">
       <span>{{ isQuestion ? 'Answer:' : 'Question:'}}</span>
       {{ lastLine.text }}
-    </p>
-    <div v-if="!sheet">Waiting for the oracle...</div>
+    </h2>
+    <div v-if="!sheet"></div>
     <div v-if="sheet">
         <v-form @submit.prevent="addLine" class="d-md-flex align-start">
           <v-textarea 
