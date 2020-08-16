@@ -31,6 +31,7 @@
           <GameInfo 
             :game="game" 
             :localPlayer="localPlayer"
+            :progress="progress"
             class="ma-2"
             @start="startGame"
           />
@@ -62,7 +63,8 @@ export default {
       players: null,
       hasGameCodeError: false,
       socket: null,
-      queues: {}
+      queues: {},
+      progress: 0
     }
   },
   computed: {
@@ -141,16 +143,13 @@ export default {
           this.buildQueues(data.sheets)
         })
         this.socket.on('sheet:pass', (data) => {
-          console.log(data)
           this.buildQueues(data)
-          console.log(this.queues)
+          this.updateProgress(data)
         })
     },
     async getPlayers () {
       const { data } = await getPlayers(this.game.uuid)
       this.players = data
-      console.log('getPlayers')
-      console.log(this.players)
     },
     async joinGame (id) {
       // make api call with game id
@@ -222,6 +221,13 @@ export default {
         queues[player.uuid] = queue
       })
       this.queues = queues
+    },
+    updateProgress (sheets) {
+      const totalLines = this.game.length * this.players.length
+      const completedLines = sheets.reduce((total, sheet) => {
+        return total + sheet.lineCount
+      }, 0)
+      this.progress = (completedLines/totalLines) * 100
     }
   }
 }

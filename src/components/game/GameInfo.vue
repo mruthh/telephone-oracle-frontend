@@ -5,10 +5,10 @@
     <span>Progress:</span> 
     <v-progress-linear 
       class="ml-4" 
-      value="25"
+      :value="progress"
       color="accent"
       :height="24"
-    >25%
+    >{{ `${progress}%`}}
     </v-progress-linear>
   </div>  
   <HostControls 
@@ -32,6 +32,10 @@ export default {
       localPlayer: {
         type: Object,
         required: true
+      },
+      progress: {
+        type: Number,
+        default: 0
       }
     }
   }
