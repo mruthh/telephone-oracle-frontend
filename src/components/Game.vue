@@ -6,7 +6,6 @@
       <span>{{ isQuestion ? 'Answer:' : 'Question:'}}</span>
       {{ lastLine.text }}
     </h2>
-    <div v-if="!sheet"></div>
     <div v-if="sheet">
         <v-form @submit.prevent="addLine" class="d-md-flex align-start">
           <v-textarea 
