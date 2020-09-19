@@ -11,32 +11,21 @@
     >{{ `${progress}%`}}
     </v-progress-linear>
   </div>  
-  <HostControls 
-    class="mt-4"
-    status="open"
-    :isHost="!!localPlayer.isHost"
-    v-on="$listeners"
-  />
 </v-col>
 </template>
 
 <script>
-import HostControls from './HostControls'
+
 export default {
-    components: { HostControls },
-    props: {
-      game: {
-        type: Object,
-        required: true
-      },
-      localPlayer: {
-        type: Object,
-        required: true
-      },
-      progress: {
-        type: Number,
-        default: 0
-      }
+  props: {
+    game: {
+      type: Object,
+      required: true
+    },
+    progress: {
+      type: Number,
+      default: 0
     }
   }
+}
 </script>

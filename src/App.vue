@@ -30,9 +30,15 @@
             />
           <GameInfo 
             :game="game" 
-            :localPlayer="localPlayer"
             :progress="progress"
             class="ma-2"
+          />
+        </v-row>
+        <v-row class="d-flex justify-end">
+          <HostControls
+            class="ma-2"
+            :isHost="localPlayer.isHost"
+            :status="game.status"
             @start="startGame"
           />
         </v-row>
@@ -50,12 +56,13 @@ import Game from './components/Game'
 import Finale from './components/Finale'
 import Players from './components/game/Players'
 import GameInfo from './components/game/GameInfo'
+import HostControls from './components/game/HostControls'
 import io from 'socket.io-client'
 import { initGame, startGame, getGame, createPlayer, getPlayers } from './libraries/api'
 
 export default {
   name: 'app',
-  components: { Start, Pregame, Game, Finale, Players, GameInfo },
+  components: { Start, Pregame, Game, Finale, Players, GameInfo, HostControls },
   data () {
     return {
       game: null,
