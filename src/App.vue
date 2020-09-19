@@ -212,15 +212,22 @@ export default {
     },
     buildQueues (sheets) {
       const queues = {}
+      const completedSheets = []
+
       this.players.forEach(player => {
-        // get all sheets for player
-        const queue = sheets
-          .filter(sheet => {
-            return sheet.active_player_id === player.uuid
-          })
-        queues[player.uuid] = queue
+        queues[player.uuid] = []
       })
+
+      sheets.forEach(sheet => {
+        if (!sheet.active_player_id) {
+          completedSheets.push(sheet)
+          return
+        }
+        queues[sheet.active_player_id].push(sheet)
+      })
+      
       this.queues = queues
+      this.completedSheets = completedSheets
     },
     updateProgress (sheets) {
       const totalLines = this.game.length * this.players.length
