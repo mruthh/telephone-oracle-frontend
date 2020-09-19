@@ -29,7 +29,7 @@
         type: String,
         required: true,
         validator (status) {
-          return ['open', 'active'].includes(status)
+          return ['open', 'active', 'complete'].includes(status)
         }
       }
     }

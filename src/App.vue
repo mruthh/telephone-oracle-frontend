@@ -13,13 +13,23 @@
         @start="initGame"
         @join="joinGame"
       />
-      <component v-if="game && players && localPlayer" :is="gameComponent"
-        :game="game" 
-        :localPlayer="localPlayer"
-        :players="players"
-        :sheet="activeSheet"
-      />
-      
+      <div v-if="game && players && localPlayer">
+        <Pregame
+          v-if="game.status === 'open'"
+          :game="game"
+          :localPlayer="localPlayer"
+        />
+        <Game
+          v-if="game.status === 'active'"
+          :game="game" 
+          :localPlayer="localPlayer"
+          :sheet="activeSheet"
+        />
+        <Finale 
+          v-if="game.status === 'complete'"
+          :sheets="sheets"
+        />
+      </div>
       <v-container v-if="game" fluid>
         <v-row class="d-md-flex justify-space-between align-stretch">
           <Players 
@@ -37,7 +47,7 @@
         <v-row class="d-flex justify-end">
           <HostControls
             class="ma-2"
-            :isHost="localPlayer.isHost"
+            :isHost="!!localPlayer.isHost"
             :status="game.status"
             @start="startGame"
           />
@@ -75,12 +85,6 @@ export default {
     }
   },
   computed: {
-    gameComponent () {
-      if (!this.game) return null
-      if (this.game.status === 'open') return 'Pregame'
-      if (this.game.status === 'active') return 'Game'
-      return 'Finale'
-    },
     localPlayer () {
       if (!this.localPlayerId || !this.players.length) return null
       return this.players.find(player => player.uuid === this.localPlayerId)
@@ -152,6 +156,11 @@ export default {
         this.socket.on('sheet:pass', (data) => {
           this.buildQueues(data)
           this.updateProgress(data)
+        })
+        this.socket.on('game:complete', (data) => {
+          this.buildQueues(data)
+          this.updateProgress(data)
+          this.game = { ...this.game, status: 'complete' }
         })
     },
     async getPlayers () {
