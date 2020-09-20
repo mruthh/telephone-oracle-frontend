@@ -46,3 +46,9 @@ export const getLastLine = (sheetId) => {
 export const addLine = (params) => {
   return axios.post('/line', params)
 }
+
+export const getLines = (sheetId) => {
+  return axios.get('/line', {
+    params: { id: sheetId }
+  })
+}

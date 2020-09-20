@@ -81,6 +81,7 @@ export default {
       hasGameCodeError: false,
       socket: null,
       queues: {},
+      sheets: [],
       progress: 0
     }
   },
@@ -160,6 +161,7 @@ export default {
         this.socket.on('game:complete', (data) => {
           this.buildQueues(data)
           this.updateProgress(data)
+          this.sheets = data
           this.game = { ...this.game, status: 'complete' }
         })
     },
