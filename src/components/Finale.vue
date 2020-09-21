@@ -1,12 +1,23 @@
 <template>
   <div>
     <p>The Oracle has spoken!</p>
-    <div v-for="sheet in sheets" :key="sheet.uuid">
-      <Sheet :sheet="sheet" />
-    </div>
-    <!-- <v-tabs 
-      v-model="tab">
-    </v-tabs> -->
+    <v-tabs v-model="tab">
+      <v-tab
+        v-for="(sheet, index) in sheets"
+        :key="sheet.uuid + 'tab'"
+        :value="sheet.uuid"
+        :href="'#' + sheet.uuid"
+      >
+        {{ index + 1}}
+      </v-tab>
+      <v-tabs-items v-model="tab">
+        <Sheet 
+          v-for="sheet in sheets"
+          :key="sheet.uuid"
+          :sheet="sheet"
+        />
+      </v-tabs-items>
+    </v-tabs>
   </div>
 </template>
 
@@ -19,6 +30,11 @@ export default {
     sheets: {
       type: Array,
       required: true
+    }
+  },
+  data () {
+    return {
+      tab: null 
     }
   }
 }
