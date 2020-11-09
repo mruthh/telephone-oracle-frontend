@@ -1,31 +1,20 @@
 <template>
   <div>
     <p>The Oracle has spoken!</p>
-    <v-btn 
-      v-for="(sheet, index) in sheets"
-      :key="sheet.uuid"
-      
-      >
-
+    <div v-if="fullSheets.length"> 
+      <v-btn 
+        v-if="canGoBack"
+        @click="currentIndex++"
+      >Previous sheet
     </v-btn>
-    <!-- <v-tabs v-model="tab">
-      <v-tab
-        v-for="(sheet, index) in sheets"
-        :key="sheet.uuid + 'tab'"
-        :value="sheet.uuid"
-        :href="'#' + sheet.uuid"
-      >
-        {{ index + 1}}
-      </v-tab>
-      <v-tabs-items v-model="tab">
-        <Sheet 
-          v-for="sheet in sheets"
-          :key="sheet.uuid"
-          :sheet="sheet"
-        />
-      </v-tabs-items>
-    </v-tabs> -->
-  </div>
+      <Sheet :sheet="currentSheet"></Sheet>
+      <v-btn 
+        v-if="canGoForward"
+        @click="currentIndex--"
+      >Next sheet
+    </v-btn>
+    </div>
+  </div>    
 </template>
 
 <script>
@@ -46,8 +35,17 @@ export default {
   },
   data () {
     return {
-      fullSheets: []
+      fullSheets: [],
+      currentIndex: 0
     }
+  },
+  computed: {
+    canGoBack () { return this.currentIndex > 0 },
+    canGoForward () { 
+      if (!this.fullSheets.length) return false
+      return this.currentIndex < (this.fullSheets.length - 1)
+    },
+    currentSheet () { return this.fullSheets[currentIndex]}
   },
   created () {
     const { data } = getFullSheets(this.game.uuid)

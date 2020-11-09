@@ -1,9 +1,4 @@
 <template>
-<!-- <div>
-  <v-tab v-if="lines.length">
-    {{ firstLineText }}      
-  </v-tab> -->
-  <v-tab-item v-if="lines.length" :id="sheet.uuid">
     <v-card>
       <p>
         <span>Question:</span>
@@ -19,8 +14,6 @@
   
       </p>
     </v-card>
-  </v-tab-item>
-<!-- </div> -->
 </template>
 
 <script>
@@ -35,12 +28,12 @@ export default {
   },
   data () {
     return {
-      lines: [],
       showAnswer: false,
       showProgression: false
     }
   },
   computed: {
+    lines () { return this.sheet.lines },
     firstLineText () {
       if (!this.lines.length) return ''
       return this.lines[0].text
@@ -63,5 +56,4 @@ export default {
     this.lines = data
   }
 }
-
 </script>
