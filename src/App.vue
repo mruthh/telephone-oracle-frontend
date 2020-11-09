@@ -28,6 +28,7 @@
         <Finale 
           v-if="game.status === 'complete'"
           :sheets="sheets"
+          :game="game"
         />
       </div>
       <v-container v-if="game && game.status !== 'complete'" fluid class="absolute-bottom">

@@ -1,7 +1,14 @@
 <template>
   <div>
     <p>The Oracle has spoken!</p>
-    <v-tabs v-model="tab">
+    <v-btn 
+      v-for="(sheet, index) in sheets"
+      :key="sheet.uuid"
+      
+      >
+
+    </v-btn>
+    <!-- <v-tabs v-model="tab">
       <v-tab
         v-for="(sheet, index) in sheets"
         :key="sheet.uuid + 'tab'"
@@ -17,11 +24,12 @@
           :sheet="sheet"
         />
       </v-tabs-items>
-    </v-tabs>
+    </v-tabs> -->
   </div>
 </template>
 
 <script>
+import { getFullSheets } from '../libraries/api'
 import Sheet from './finale/Sheet'
 
 export default {
@@ -30,12 +38,20 @@ export default {
     sheets: {
       type: Array,
       required: true
+    },
+    game: {
+      type: Object,
+      required: true
     }
   },
   data () {
     return {
-      tab: null 
+      fullSheets: []
     }
+  },
+  created () {
+    const { data } = getFullSheets(this.game.uuid)
+    this.fullSheets = data
   }
 }
 </script>
