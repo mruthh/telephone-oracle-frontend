@@ -1,12 +1,12 @@
 <template>
-  <v-app class="relative">
+  <v-app>
     <header 
       class="accent pa-2 mb-4 lime--text text--lighten-5 elevation-5"
     >
       <h1 class="">Telephone Oracle</h1>
       <p class="subtitle-1 font-italic">Pandemic edition</p>
     </header>
-    <v-main class="mx-4 d-flex flex-column">
+    <v-main class="mx-4">
       <Start
         v-if="!game"
         :hasError="hasGameCodeError"
@@ -31,7 +31,7 @@
           :game="game"
         />
       </div>
-      <v-container v-if="game && game.status !== 'complete'" fluid class="absolute-bottom">
+      <v-container v-if="game" fluid>
         <v-row class="d-md-flex justify-space-between align-stretch">
           <Players 
             :players="players" 
@@ -258,14 +258,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  .relative {
-    position: relative;
-  }
-
-  .absolute-bottom {
-    position: absolute;
-    bottom: 0;
-  }
-</style>
