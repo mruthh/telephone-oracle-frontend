@@ -1,28 +1,48 @@
 <template>
 <div>
-  <p>
-    <span class="font-weight-bold">Question:</span>
-    <span class="ml-2">{{ firstLineText }}</span>
-  </p>
-  <p>
-    <span class="font-weight-bold">Answer:</span>
+  <div>
+    <h3>Question</h3>
+    <p>{{ firstLineText }}</p>
+  </div>
+  <div>
+    <h3>Answer</h3>
     <v-btn 
       v-if="!showAnswer" 
-      class="ml-2 black--text"
+      class="black--text"
       color="secondary"
       @click="showAnswer = true"
       >
       Reveal Oracle's answer
     </v-btn>
-    <span 
-      v-if="showAnswer" 
-      class="ml-2"
-    >
+    <p v-if="showAnswer">
       {{ lastLineText }}
-    </span>  
-  </p>
-
-  
+    </p>  
+  </div>
+  <v-dialog v-if="showAnswer" scrollable>
+    <template v-slot:activator="{ on }">
+      <v-btn 
+        class="black--text"
+        color="secondary"
+        v-on="on"
+        >
+        How did we get here?
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-title class="text-truncate">
+        {{ firstLineText }}
+      </v-card-title>
+      <v-card-text>
+        <p v-for="line in lines" :key="line.uuid">
+          {{ line.text }}
+        </p>
+      </v-card-text>
+      <v-card-actions>
+        <!-- TODO: make this actually close dialog  -->
+        <v-btn @click="dialog = false">Close</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </div>
 </template>
 
@@ -38,8 +58,7 @@ export default {
   },
   data () {
     return {
-      showAnswer: false,
-      showProgression: false
+      showAnswer: false
     }
   },
   computed: {
