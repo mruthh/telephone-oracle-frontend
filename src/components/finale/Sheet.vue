@@ -1,19 +1,29 @@
 <template>
-    <v-card>
-      <p>
-        <span>Question:</span>
-        <span class="ml-2">{{ firstLineText }}</span>
-      </p>
-      <v-btn v-if="!showAnswer" @click="showAnswer = true">
-        See Oracle's answer
-      </v-btn>
+<div>
+  <p>
+    <span class="font-weight-bold">Question:</span>
+    <span class="ml-2">{{ firstLineText }}</span>
+  </p>
+  <p>
+    <span class="font-weight-bold">Answer:</span>
+    <v-btn 
+      v-if="!showAnswer" 
+      class="ml-2 black--text"
+      color="secondary"
+      @click="showAnswer = true"
+      >
+      Reveal Oracle's answer
+    </v-btn>
+    <span 
+      v-if="showAnswer" 
+      class="ml-2"
+    >
+      {{ lastLineText }}
+    </span>  
+  </p>
 
-      <p v-if="showAnswer">
-        <span>Answer:</span>
-        <span class="ml-2">{{ lastLineText }}</span>
   
-      </p>
-    </v-card>
+</div>
 </template>
 
 <script>
@@ -50,10 +60,6 @@ export default {
         .map(line => line.text)
 
     }
-  },
-  async created () {
-    const { data } = await getLines(this.sheet.uuid)
-    this.lines = data
   }
 }
 </script>
