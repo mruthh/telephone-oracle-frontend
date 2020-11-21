@@ -6,26 +6,28 @@
   </div>
   <div>
     <h3>Answer</h3>
-    <v-btn 
-      v-if="!showAnswer" 
-      class="black--text"
-      color="secondary"
+    <v-btn
+      v-if="!showAnswer"
+      text 
+      color="accent"
       @click="showAnswer = true"
       >
-      Reveal Oracle's answer
+      <span>Reveal Oracle's answer</span>
+      <i class="fas fa-chevron-right ml-4" />
     </v-btn>
     <p v-if="showAnswer">
       {{ lastLineText }}
     </p>  
   </div>
-  <v-dialog v-if="showAnswer" scrollable>
+  <v-dialog v-if="showAnswer" v-model="dialog" scrollable>
     <template v-slot:activator="{ on }">
       <v-btn 
-        class="black--text"
-        color="secondary"
+        text
+        color="accent"
         v-on="on"
-        >
-        How did we get here?
+      >
+        <span>Reveal full sequence</span>
+        <i class="fas fa-chevron-right ml-4" />
       </v-btn>
     </template>
     <v-card>
@@ -58,7 +60,8 @@ export default {
   },
   data () {
     return {
-      showAnswer: false
+      showAnswer: false,
+      dialog: false
     }
   },
   computed: {
