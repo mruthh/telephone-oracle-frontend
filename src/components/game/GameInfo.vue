@@ -10,7 +10,7 @@
       color="accent"
       :height="24"
     >
-    <div class="lime lighten-2 pa-4 rounded-pill border font-weight-bold"
+    <div class="lime lighten-4 pa-4 rounded-pill border font-weight-bold"
       >{{ `${progress}%`}}
     </div>
     </v-progress-linear>
