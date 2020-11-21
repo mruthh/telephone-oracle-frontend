@@ -4,11 +4,15 @@
   <div class="pa-4 d-flex font-italic justify-space-between align-center">
     <span>Progress:</span> 
     <v-progress-linear 
+      striped
       class="ml-4" 
       :value="progress"
       color="accent"
       :height="24"
-    >{{ `${progress}%`}}
+    >
+    <div class="lime lighten-2 pa-4 rounded-pill border font-weight-bold"
+      >{{ `${progress}%`}}
+    </div>
     </v-progress-linear>
   </div>  
 </v-col>
