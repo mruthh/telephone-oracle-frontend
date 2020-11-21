@@ -1,18 +1,32 @@
 <template>
   <ActionPanel>
     <h2>The Oracle has spoken!</h2>
-    <div v-if="fullSheets.length"> 
-      <v-btn 
-        v-if="canGoBack"
-        @click="currentIndex++"
-      >Previous sheet
-    </v-btn>
-      <Sheet :sheet="currentSheet" class="mt-4" />
-      <v-btn 
-        v-if="canGoForward"
-        @click="currentIndex--"
-      >Next sheet
-    </v-btn>
+    <div v-if="fullSheets.length" 
+      class="d-flex align-center justify-space-between"
+    > 
+      <div>
+        <v-btn
+          v-if="canGoBack"
+          icon
+          class="secondary black--text"
+          aria-label="previous sheet"
+          @click="currentIndex--"
+          ><i class="fas fa-chevron-left" />
+        </v-btn>
+      </div>
+      <div class="flex-grow-1">
+        <Sheet :sheet="currentSheet" class="mt-4 px-4" />
+      </div>
+      <div>
+        <v-btn
+          v-if="canGoForward"
+          icon
+          class="secondary black--text"
+          aria-label="next sheet"
+          @click="currentIndex++"
+        ><i class="fas fa-chevron-right" />
+        </v-btn>
+      </div>
     </div>
   </ActionPanel>
 </template>

@@ -12,7 +12,7 @@
       color="accent"
       @click="showAnswer = true"
       >
-      <span>Reveal Oracle's answer</span>
+      <span>See Oracle's answer</span>
       <i class="fas fa-chevron-right ml-4" />
     </v-btn>
     <p v-if="showAnswer">
@@ -26,7 +26,7 @@
         color="accent"
         v-on="on"
       >
-        <span>Reveal full sequence</span>
+        <span>See full sequence</span>
         <i class="fas fa-chevron-right ml-4" />
       </v-btn>
     </template>
