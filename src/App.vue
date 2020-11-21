@@ -13,7 +13,7 @@
         @start="initGame"
         @join="joinGame"
       />
-      <div v-if="game && players && localPlayer">
+      <div v-if="gameDataIsLoaded">
         <Pregame
           v-if="game.status === 'open'"
           :game="game"
@@ -31,7 +31,7 @@
           :game="game"
         />
       </div>
-      <v-container v-if="game" fluid>
+      <v-container v-if="gameDataIsLoaded" fluid>
         <v-row class="d-md-flex justify-space-between align-stretch">
           <Players 
             :players="players" 
@@ -107,6 +107,9 @@ export default {
           ? oldest
           : sheet
       }, null)
+    },
+    gameDataIsLoaded () {
+      return this.game && this.players && this.localPlayer
     }
   },
   watch: {
