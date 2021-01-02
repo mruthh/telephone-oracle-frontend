@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-end align-center">
-    <p v-if="!isHost" class="mr-4 mb-0 red--text text--darken-2 font-italic">
+    <p v-if="!isHost && status === 'open'" class="mr-4 mb-0 red--text text--darken-2 font-italic">
       Only the host may start the game
     </p>
     <v-btn
