@@ -1,20 +1,22 @@
 <template>
 <div>
-  <div>
-    <h3>Question</h3>
-    <p>{{ firstLineText }}</p>
+  <div class="d-flex align-start">
+    <h3>Question: </h3>
+    <p class="ml-4">{{ firstLineText }}</p>
   </div>
-  <div>
-    <h3>Answer</h3>
-    <v-btn
-      v-if="!showAnswer"
-      text 
-      color="accent"
-      @click="showAnswer = true"
-      >
-      <span>See Oracle's answer</span>
-      <i class="fas fa-chevron-right ml-4" />
-    </v-btn>
+  <div class="d-flex align-start">
+    <h3>Answer:</h3>
+    <div class="ml-4">
+      <v-btn
+        v-if="!showAnswer"
+        text 
+        color="accent"
+        @click="showAnswer = true"
+        >
+        <span>See Oracle's answer</span>
+        <i class="fas fa-chevron-right ml-4" />
+      </v-btn>
+    </div>
     <p v-if="showAnswer">
       {{ lastLineText }}
     </p>  

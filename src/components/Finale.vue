@@ -1,6 +1,6 @@
 <template>
   <ActionPanel>
-    <h2>The Oracle has spoken!</h2>
+    <h2 class="text-center">The Oracle has spoken!</h2>
     <div v-if="fullSheets.length" 
       class="d-flex align-center justify-space-between"
     > 
