@@ -1,7 +1,9 @@
 <template>
   <ActionPanel>
     <h2 v-if="!sheet">Waiting for the oracle...</h2>
-    <h2 v-else-if="!lastLine.uuid" class="mb-4">Ask the oracle a question</h2>
+    <h2 v-else-if="!lastline || !lastLine.uuid" class="mb-4">
+      Ask the oracle a question
+    </h2>
     <h2 v-else class="font-italic mb-4">
       <span>{{ isQuestion ? 'Answer:' : 'Question:'}}</span>
       {{ lastLine.text }}
