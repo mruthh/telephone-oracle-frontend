@@ -63,7 +63,7 @@ export default {
   },
   computed: {
     gameLink () {
-      return `${process.env.VUE_APP_PUBLIC_PATH}/game/${this.game.uuid}`
+      return `${process.env.VUE_APP_BASE_URL}/game/${this.game.uuid}`
     }
   },
   methods: {
