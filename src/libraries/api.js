@@ -1,8 +1,8 @@
 import axios from 'axios'
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 
-export const initGame = () => {
-  return axios.post('/game')
+export const initGame = (params) => {
+  return axios.post('game', params)
 }
 
 export const startGame = (id) => {

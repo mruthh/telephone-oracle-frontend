@@ -18,6 +18,7 @@
           v-if="game.status === 'open'"
           :game="game"
           :localPlayer="localPlayer"
+          :player:update="storePlayerData"
         />
         <Game
           v-if="game.status === 'active'"
@@ -83,7 +84,8 @@ export default {
       socket: null,
       queues: {},
       sheets: [],
-      progress: 0
+      progress: 0,
+      playerName: null
     }
   },
   computed: {
@@ -131,11 +133,17 @@ export default {
   },
   methods: {
     async initGame () {
-      const { data } = await initGame()
+      // load stored name for this player
+      const playerName = window.localStorage.getItem('localPlayerName')
+      if (playerName) this.playerName = playerName
+
+      const { data } = await initGame({
+        player: { name: this.playerName }
+      })
       this.game = data.game
       this.players = data.players
       this.localPlayerId = data.players[0].uuid
-      this.storePlayerId()
+      this.storePlayerData()
       this.initSocket()
     },
     initSocket (gameId) {
@@ -194,7 +202,9 @@ export default {
       }
     },
     async loadPlayer () {
-      const id = await window.localStorage.getItem('localPlayerId')
+      const id = window.localStorage.getItem('localPlayerId')
+      const name = window.localStorage.getItem('localPlayerName')
+      if (name) this.playerName = name
       // if stored id matches a player in this game, don't create a new player
       if (id && this.players.find(player => player.uuid === id)) {
         this.localPlayerId = id
@@ -205,9 +215,9 @@ export default {
     },
     async createPlayer () {
       try {
-        const { data } = await createPlayer(this.game.uuid)
+        const { data } = await createPlayer(this.game.uuid, { name: this.playerName })
         this.localPlayerId = data.uuid
-        this.storePlayerId()
+        this.storePlayerData()
       } catch (e) {
         console.error(e)
       }
@@ -215,8 +225,13 @@ export default {
     startGame () {
       startGame(this.game.uuid)
     },
-    storePlayerId () {
-      window.localStorage.setItem('localPlayerId', this.localPlayerId)
+    storePlayerData () {
+      if (this.localPlayerId) {
+        window.localStorage.setItem('localPlayerId', this.localPlayerId)
+      }
+      if (this.localPlayer.name) {
+        window.localStorage.setItem('localPlayerName', this.localPlayer.name)
+      }
     },
     getGameFromRoute () {
       // if there is a gameId in the page route, connect player to the correct game
@@ -231,6 +246,9 @@ export default {
       const players = [...this.players]
       players.splice(oldPlayerIndex, 1, player)
       this.players = players
+
+      // if this is our localPlayer, store their updated data
+      if (player.uuid === this.localPlayerId) this.storePlayerData()
     },
     buildQueues (sheets) {
       const queues = {}

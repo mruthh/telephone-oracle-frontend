@@ -77,7 +77,7 @@ export default {
       this.copied = true
     },
     async updatePlayer () {
-      const { data } = updatePlayer(this.localPlayer.uuid, { name: this.name })      
+      await updatePlayer(this.localPlayer.uuid, { name: this.name })     
     }
   }
 
