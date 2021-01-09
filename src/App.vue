@@ -235,11 +235,11 @@ export default {
       }
     },
     getGameFromRoute () {
-      // if there is a gameId in the page route, connect player to the correct game
-      const route = window.location.href.split('/')
-      const gameIndex = route.findIndex(segment => segment === 'game')
-      if (gameIndex === -1) return
-      const gameId = route[gameIndex + 1]
+      const query = window.location.search
+      if (!query) return
+
+      const gameId = query.replace('?game=', '')
+
       this.joinGame(gameId)
     },
     handlePlayerUpdate (player) {

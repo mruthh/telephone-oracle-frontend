@@ -35,8 +35,10 @@
         let id = this.gameLink
 
         // if the game code is a url and not just a gameId, get just the id
-        if (id.includes('/')) {
-          id = id.split('/').slice(-1)[0]
+        if (id.startsWith('http')) {
+          const url = new URL(id)
+          const query = url.search
+          id = query.replace('?game=', '')
         }
 
         this.$emit('join', id)
