@@ -24,9 +24,10 @@ export const getPlayers = (gameId) => {
   })
 }
 
-export const createPlayer = (gameId) => {
+export const createPlayer = (gameId, params) => {
   return axios.post('player', {
-    gameId
+    gameId,
+    params
   })
 }
 

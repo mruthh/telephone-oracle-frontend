@@ -210,7 +210,7 @@ export default {
         this.localPlayerId = id
         return
       }
-      this.createPlayer()
+      await this.createPlayer()
       this.getPlayers()
     },
     async createPlayer () {
@@ -226,6 +226,7 @@ export default {
       startGame(this.game.uuid)
     },
     storePlayerData () {
+      if (!this.localPlayer) return
       if (this.localPlayerId) {
         window.localStorage.setItem('localPlayerId', this.localPlayerId)
       }
