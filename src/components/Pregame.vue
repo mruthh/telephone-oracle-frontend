@@ -4,13 +4,21 @@
       <div v-if="!localPlayer.name">
         <h2>Please enter your name</h2>
         <v-form @submit.prevent="updatePlayer">
-          <v-text-field 
-            v-model="name"
-            label="Player name"
-            hint="Please enter your name"
-            persistent-hint
-            class="mb-8"
-          />
+        <div class="d-md-flex">
+            <v-text-field 
+              v-model="name"
+              label="Player name"
+              hint="Please enter your name"
+              persistent-hint
+              class="mb-8 mr-md-8"
+            />
+            <v-btn 
+              type="submit"
+              color="primary"
+            >
+              Submit
+            </v-btn>
+          </div>
         </v-form>
       </div>
       

@@ -8,12 +8,21 @@
     </v-btn>
 
     <form @submit.prevent="joinGame" class="mt-4">
-      <v-text-field
-        v-model="gameLink" 
-        clearable
-        label="Got a game link? Paste it here"
-        :aria-describedby="hasError ? 'game-code-invalid' : null"
-      />
+      <div class="d-md-flex">
+        <v-text-field
+          v-model="gameLink" 
+          clearable
+          label="Got a game link? Paste it here"
+          :aria-describedby="hasError ? 'game-code-invalid' : null"
+        />
+        <v-btn
+          type="submit"
+          color="secondary"
+          class="ml-md-8 black--text"
+        >
+          Find game
+        </v-btn>
+      </div>
       <p id="game-code-invalid" v-if="hasError">Please enter a valid game code</p>
     </form>
   </div>
