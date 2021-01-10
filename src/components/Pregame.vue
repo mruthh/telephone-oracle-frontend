@@ -14,7 +14,8 @@
             />
             <v-btn 
               type="submit"
-              color="primary"
+              color="secondary"
+              class="black--text"
             >
               Submit
             </v-btn>
@@ -23,11 +24,11 @@
       </div>
       
       <div v-else>
-        <div class="d-flex justify-space-between align-center">
+        <div class="d-md-flex justify-space-between align-center">
           <h2>Welcome {{ localPlayer.name }}!</h2>
           <v-btn 
             small
-            class="ma-4 black--text"
+            class="my-4 ml-md-4 black--text"
             color="secondary"
             @click="copyGameLink"
           >
