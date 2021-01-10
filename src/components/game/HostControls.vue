@@ -10,10 +10,13 @@
       @click="$emit('start')">
       Start Game
     </v-btn>
+
     <v-btn 
-      v-if="status === 'active'" 
-      @click="$emit('end')"
-    >End Game
+      v-if="status === 'complete'"
+      color="secondary"
+      class="black--text"
+      @click="$emit('newGame')"
+    >Play again
     </v-btn>
   </div>
 </template>

@@ -52,6 +52,7 @@
             :isHost="!!localPlayer.isHost"
             :status="game.status"
             @start="startGame"
+            @newGame="initGame"
           />
         </v-row>
       </v-container>
@@ -260,7 +261,7 @@ export default {
     buildQueues (sheets) {
       const queues = {}
       const completedSheets = []
-
+ 
       this.players.forEach(player => {
         queues[player.uuid] = []
       })
