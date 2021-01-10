@@ -145,6 +145,7 @@ export default {
       this.localPlayerId = data.players[0].uuid
       this.storePlayerData()
       this.initSocket()
+      this.updateRoute()
     },
     initSocket (gameId) {
       this.socket = io(this.ioNamespace)
@@ -196,6 +197,7 @@ export default {
         this.game = game
         this.players = players
         this.initSocket(game.uuid)
+        this.updateRoute()
         this.loadPlayer()
       } catch (e) {
         console.error(e)
@@ -241,6 +243,10 @@ export default {
       const gameId = query.replace('?game=', '')
 
       this.joinGame(gameId)
+    },
+    updateRoute () {
+      const query = `?game=${this.game.uuid}`
+      window.history.pushState({ path: query }, '', query)
     },
     handlePlayerUpdate (player) {
       const oldPlayerIndex = this.players.findIndex(p => p.uuid === player.uuid)
