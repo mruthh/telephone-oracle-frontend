@@ -54,6 +54,12 @@ export const getLines = (sheetId) => {
   })
 }
 
+export const getSheets = gameId => {
+  return axios.get('/sheet', {
+    params: { gameId }
+  })
+}
+
 export const getFullSheets = gameId => {
   return axios.get('/sheet/full', {
     params: { gameId }

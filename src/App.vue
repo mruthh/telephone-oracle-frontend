@@ -71,7 +71,14 @@ import Players from './components/game/Players'
 import GameInfo from './components/game/GameInfo'
 import HostControls from './components/game/HostControls'
 import io from 'socket.io-client'
-import { initGame, startGame, getGame, createPlayer, getPlayers } from './libraries/api'
+import { 
+  initGame, 
+  startGame, 
+  getGame, 
+  createPlayer, 
+  getPlayers, 
+  getSheets 
+} from './libraries/api'
 
 export default {
   name: 'app',
@@ -188,18 +195,20 @@ export default {
       try {
         const { data } = await getGame(id)
         const { game, players } = data
-        
-        if (game.status !== 'open') {
-          console.error('this game code is incorrect, or this game is not accepting new players')
-          return
-        }
-        
-        // if game is open, connect to socket and create a player
+  
+        // connect to socket and create a player
         this.game = game
         this.players = players
         this.initSocket(game.uuid)
         this.updateRoute()
         this.loadPlayer()
+
+        // if we're in an active game, load game state
+        if (this.game.status === 'active') {
+          const { data: sheets } = await getSheets(this.game.uuid)
+          this.buildQueues(sheets)
+          this.updateProgress(sheets)
+        }
       } catch (e) {
         console.error(e)
       }
