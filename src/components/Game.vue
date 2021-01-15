@@ -1,6 +1,6 @@
 <template>
   <ActionPanel>
-    <h2 v-if="!sheet">Waiting for the oracle...</h2>
+    <h2 v-if="!sheet || waiting">Waiting for the oracle...</h2>
     <h2 v-else-if="!lastLine || !lastLine.uuid" class="mb-4">
       Ask the oracle a question
     </h2>
@@ -51,7 +51,8 @@ import { getLastLine, addLine } from '../libraries/api'
     data () {
       return {
         line: null,
-        lastLine: null
+        lastLine: null,
+        waiting: false
       }
     },
     computed: {
@@ -76,6 +77,9 @@ import { getLastLine, addLine } from '../libraries/api'
           return
         }
         this.line = null
+
+        // stop showing question immediately on slow servers
+        this.waiting = true
         addLine({ 
           text,
           gameId: this.game.uuid,
@@ -89,11 +93,11 @@ import { getLastLine, addLine } from '../libraries/api'
     },
     watch: {
       sheet: {
-        // TODO: handle sheets with no lines yet
         async handler (sheet) {
           if (!sheet) return
           const { data } = await getLastLine(sheet.uuid)
           this.lastLine = data
+          this.waiting = false
         }
       }
     }
