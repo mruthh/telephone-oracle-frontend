@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.13.1",
+    "@playwright/test": "^1.24.2",
     "@vue/cli-plugin-babel": "~5.0.8",
     "@vue/cli-plugin-eslint": "~5.0.8",
     "@vue/cli-service": "~5.0.8",
