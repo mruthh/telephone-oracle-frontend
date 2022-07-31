@@ -38,7 +38,9 @@
             :players="players" 
             :localPlayer="localPlayer" 
             :queues="queues"
-            class="ma-2" 
+            :localPlayerIsHost="localPlayer.isHost"
+            class="ma-2"
+            @delete="deletePlayer"
             />
           <GameInfo 
             :game="game" 
@@ -77,7 +79,8 @@ import {
   getGame, 
   createPlayer, 
   getPlayers, 
-  getSheets 
+  getSheets, 
+  updatePlayer
 } from './libraries/api'
 
 export default {
@@ -189,6 +192,9 @@ export default {
     async getPlayers () {
       const { data } = await getPlayers(this.game.uuid)
       this.players = data
+    },
+    async deletePlayer(player) {
+      await updatePlayer(player.uuid, { active: false })
     },
     async joinGame (id) {
       // make api call with game id
