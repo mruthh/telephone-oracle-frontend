@@ -50,23 +50,25 @@ const config = {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-      },
-    },
-
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-      },
-    },
-
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari'],
         trace: 'retain-on-failure'
       },
     },
+
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     trace: 'retain-on-failure'
+    //   },
+    // },
+
+    // {
+    //   name: 'webkit',
+    //   use: {
+    //     ...devices['Desktop Safari'],
+    //     trace: 'retain-on-failure'
+    //   },
+    // },
 
     /* Test against mobile viewports. */
     // {

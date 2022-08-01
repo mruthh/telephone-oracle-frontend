@@ -11,6 +11,7 @@
               hint="Please enter your name"
               persistent-hint
               class="mb-8 mr-md-8"
+              data-test="name-input"
             />
             <v-btn 
               type="submit"

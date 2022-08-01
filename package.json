@@ -25,6 +25,7 @@
     "eslint": "^7.5.0",
     "eslint-plugin-vue": "^9.3.0",
     "fibers": "^5.0.0",
+    "playwright": "^1.24.2",
     "sass": "^1.26.8",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.10"
