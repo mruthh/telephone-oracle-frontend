@@ -4,6 +4,7 @@
       v-if="activePlayers.length"
       min-width="250px"
       height="100%"
+      data-test="playerList"
     >
     <v-subheader>Players</v-subheader>
       <Player 

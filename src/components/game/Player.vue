@@ -16,6 +16,7 @@
       </v-icon>
       <v-btn 
         v-if="canDelete"
+        data-test="deletePlayer"
         :aria-label="`Delete ${player.name}`"
         small
         icon
