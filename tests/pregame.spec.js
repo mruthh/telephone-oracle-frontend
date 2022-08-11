@@ -2,6 +2,8 @@
 const { test, expect } = require('@playwright/test')
 const { firefox } = require('playwright')
 
+const { enterName } = require('./helpers')
+
 
 let gameUrl
 let hostPage
@@ -34,5 +36,4 @@ test('can enter a username', async ({ browser }) => {
 test('host can start the game', async () => {
   await hostPage.locator('button :has-text("Start game")').click()
   await expect(hostPage.locator('h2')).toHaveText('Ask the oracle a question')
-  await hostPage.screenshot({ path: 'game.png', fullPage: true })
 })
