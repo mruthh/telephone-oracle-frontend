@@ -2,7 +2,7 @@
 const { test, expect } = require('@playwright/test')
 
 test('can start a game', async ({ page }) => {
-  await page.goto('localhost:8080')
+  await page.goto('/')
 
   await expect(page).toHaveTitle(/Telephone Oracle/)
 

@@ -14,7 +14,7 @@ test.beforeEach(async () => {
   // TODO: extract this into a helper function
   const browser = await chromium.launch()
   const page = await browser.newPage()
-  await page.goto('localhost:8080')
+  await page.goto('/')
 
   await page.locator('text=Start a new game').click()
 
@@ -74,5 +74,7 @@ test('the deleted player\'s questions go to the next active player', async () =>
   await host.page.locator('[data-test="deletePlayer"]').nth(playerToDelete.order).click()
   
   const playerNotDeleted = getNextInOrder(playerToDelete, players)
+  await expect(playerNotDeleted.page.locator('h2')).toHaveText(`Question: ${playerToDelete.name} question?`)
+  await submitLine(playerNotDeleted.page, 'whatever.')
   await expect(playerNotDeleted.page.locator('h2')).toHaveText('Question: Host question?')
 })
