@@ -1,6 +1,6 @@
 <template>
-    <v-list-item class="d-flex">
-      <div class="mr-2">{{ name }}</div>
+    <v-list-item class="d-flex" data-test="player">
+      <div data-test="playerName" class="mr-2">{{ name }}</div>
       <div class="mr-2" v-if="isUser">(You)</div>
       <v-chip v-if="player.isHost" color="accent" small>
         <i class="fas fa-crown mr-2"></i>
@@ -10,11 +10,20 @@
         v-for="sheet in queue" 
         class="mx-2"
         :key="sheet.uuid"
-        
         color="primary"
-        >
-          far fa-sticky-note
-        </v-icon>
+      >
+        far fa-sticky-note
+      </v-icon>
+      <v-btn 
+        v-if="canDelete"
+        data-test="deletePlayer"
+        :aria-label="`Delete ${player.name}`"
+        small
+        icon
+        @click="$emit('delete', player)"
+      >
+        <v-icon>fas fa-times</v-icon>
+      </v-btn>
     </v-list-item>
 </template>
 
@@ -40,6 +49,10 @@ export default {
     queues: {
       type: Object,
       required: true
+    },
+    localPlayerIsHost: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -48,7 +61,8 @@ export default {
     },
     name () {
       return this.player.name || `Player${this.order + 1}`
-    }
+    },
+    canDelete () { return this.isUser || this.localPlayerIsHost }
   }
 }
 </script>
